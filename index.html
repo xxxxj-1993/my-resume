@@ -133,19 +133,37 @@
         }
         /* 论文元数据标签 */
         .paper-meta { 
-            @apply flex flex-wrap gap-2 mt-2;
+            display: flex; 
+            flex-wrap: wrap; 
+            gap: 12px; 
+            margin-top: 12px;
         }
         .meta-tag { 
-            @apply px-3 py-1 rounded-full text-xs font-medium;
+            padding: 8px 16px; 
+            border-radius: 8px; 
+            font-size: 14px; 
+            font-weight: 500; 
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1); 
+            transition: all 0.3s ease; 
+        }
+        .meta-tag:hover { 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.15); 
+            transform: translateY(-1px); 
         }
         .meta-tag.impact { 
-            @apply bg-primary/10 text-primary;
+            background-color: rgba(30, 64, 175, 0.15); 
+            color: #1e40af; 
+            border: 1px solid rgba(30, 64, 175, 0.3); 
         }
         .meta-tag.citation { 
-            @apply bg-gray-100 text-gray-600;
+            background-color: #f3f4f6; 
+            color: #4b5563; 
+            border: 1px solid #e5e7eb; 
         }
         .meta-tag.journal { 
-            @apply bg-green-100 text-green-700;
+            background-color: #d1fae5; 
+            color: #065f46; 
+            border: 1px solid #a7f3d0; 
         }
         /* 研究领域子标题 */
         #research h3 {
@@ -589,11 +607,11 @@
                             <p class="text-sm text-gray-600">第一/通讯作者论文</p>
                         </div>
                         <div class="bg-primary/5 p-4 rounded-lg text-center">
-                            <p class="text-2xl font-bold text-primary">80+</p>
+                            <p class="text-2xl font-bold text-primary">150+</p>
                             <p class="text-sm text-gray-600">总引用次数</p>
                         </div>
                         <div class="bg-primary/5 p-4 rounded-lg text-center">
-                            <p class="text-2xl font-bold text-primary">8</p>
+                            <p class="text-2xl font-bold text-primary">10</p>
                             <p class="text-sm text-gray-600">h-index</p>
                         </div>
                     </div>
@@ -690,9 +708,9 @@
                 <h3 class="pub-subtitle">第一/通讯作者论文</h3>
                 <div class="space-y-6 mb-6">
                     <div class="paper-item bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
-                        <p class="mb-2">1. J. Xu*, Y. Luo, M. Yang, Y. Shen, Y. You*, K. L. Tsakmakidis*, and Q. Shen*, "Realization of Tunable Topological Index‐Near‐Zero Modes in Chern Photonic Crystals," <em>Advanced Optical Materials</em> 13, e01115 (2025).</p>
+                        <p class="mb-2">1. J. Xu*, Y. Luo, M. Yang, Y. Shen, Y. You*, K. L. Tsakmakidis*, and Q. Shen*, "Realization of Tunable Topological Index‐Near‐Zero Modes in Chern Photonic Crystals," <em>Adv. Opt. Mater.</em> 13, e01115 (2025).</p>
                         <div class="paper-meta">
-                            <span class="meta-tag impact">IF: ~8.0</span>
+                            <span class="meta-tag impact">IF: ~7.2</span>
                             <span class="meta-tag citation">引用: 0</span>
                             <span class="meta-tag journal">中科院2区</span>
                         </div>
@@ -700,7 +718,7 @@
                     <div class="paper-item bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
                         <p class="mb-2">2. M. Yang, Y. You, Y. Luo, K. Yong, D. Feng, Q. Shen, and J. Xu*, "Numerical realization of tunable triple-band slow wave and bidirectional rainbow trapping in magneto-optical heterostructures," <em>Opt. Express</em> 33(13), 28467 (2025).</p>
                         <div class="paper-meta">
-                            <span class="meta-tag impact">IF: ~3.5</span>
+                            <span class="meta-tag impact">IF: ~3.3</span>
                             <span class="meta-tag citation">引用: 0</span>
                             <span class="meta-tag journal">中科院2区</span>
                         </div>
@@ -708,7 +726,7 @@
                     <div class="paper-item bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
                         <p class="mb-2">3. Q. Shen, Y. You, Z. Tang, J. Gao, and J. Xu*, "Tunable unidirectional large-area surface magnetoplasmons in a stratified waveguide," <em>Opt. Express</em> 33(12), 25580-25593 (2025).</p>
                         <div class="paper-meta">
-                            <span class="meta-tag impact">IF: ~3.5</span>
+                            <span class="meta-tag impact">IF: ~3.3</span>
                             <span class="meta-tag citation">引用: 0</span>
                             <span class="meta-tag journal">中科院2区</span>
                         </div>
@@ -716,15 +734,15 @@
                     <div class="paper-item bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
                         <p class="mb-2">4. J. Xu*, Y. You, S. Xiao, L. Hong, Y. Shen, K. L. Tsakmakidis*, and Y. Luo*, "Assembling magneto-optical heterostructures for all-optical multi-functional devices," <em>Opt. Laser Technol.</em> 188, 112858 (2025).</p>
                         <div class="paper-meta">
-                            <span class="meta-tag impact">IF: ~4.0</span>
+                            <span class="meta-tag impact">IF: ~5</span>
                             <span class="meta-tag citation">引用: 0</span>
-                            <span class="meta-tag journal">中科院2区 TOP</span>
+                            <span class="meta-tag journal">中科院2区TOP</span>
                         </div>
                     </div>
                     <div class="paper-item bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
                         <p class="mb-2">5. P. He, Y. Shen, S. Xiao, L. Hong, Y. You, K. L. Tsakmakidis*, Y. Luo*, and J. Xu*, "Precisely tunable and predictable index-near-zero modes across continuous and broad bands," <em>Appl. Phys. Lett.</em> 124(16), 161109 (2024).</p>
                         <div class="paper-meta">
-                            <span class="meta-tag impact">IF: ~3.8</span>
+                            <span class="meta-tag impact">IF: ~3.5</span>
                             <span class="meta-tag citation">引用: 0</span>
                             <span class="meta-tag journal">中科院2区TOP</span>
                         </div>
@@ -732,7 +750,7 @@
                     <div class="paper-item bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
                         <p class="mb-2">6. J. Xu*, Y. Luo, K. Yong, K. Baskourelos, and K. L. Tsakmakidis*, "Topological and High-Performance Nonreciprocal Extraordinary Optical Transmission from a Guided Mode to Free-Space Radiation," <em>Commun. Phys.</em> 6, 339 (2023).</p>
                         <div class="paper-meta">
-                            <span class="meta-tag impact">IF: ~6.0</span>
+                            <span class="meta-tag impact">IF: ~5.4</span>
                             <span class="meta-tag citation">引用: 5</span>
                             <span class="meta-tag journal">Nature序列期刊, 中科院1区TOP</span>
                         </div>
@@ -740,7 +758,7 @@
                     <div class="paper-item bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
                         <p class="mb-2">7. J. Xu*, P. He, D. Feng, Y. Luo, S. Fan, K. Yong*, and K. L. Tsakmakidis*, "Tunable all-optical microwave logic gates based on topologically protected edge modes," <em>Opt. Express</em> 31(25), 42388-42399 (2023).</p>
                         <div class="paper-meta">
-                            <span class="meta-tag impact">IF: ~3.5</span>
+                            <span class="meta-tag impact">IF: ~3.8</span>
                             <span class="meta-tag citation">引用: 3</span>
                             <span class="meta-tag journal">中科院2区 TOP</span>
                         </div>
@@ -748,7 +766,7 @@
                     <div class="paper-item bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
                         <p class="mb-2">8. J. Xu*, Y. Luo, S. Xiao, F. Kang*, and K. L. Tsakmakidis*, "All-optical digital logic based on unidirectional modes," <em>Adv. Opt. Mater.</em> 11(1), 2201836 (2022).</p>
                         <div class="paper-meta">
-                            <span class="meta-tag impact">IF: ~10.0</span>
+                            <span class="meta-tag impact">IF: ~10.05</span>
                             <span class="meta-tag citation">引用: 12</span>
                             <span class="meta-tag journal">中科院1区</span>
                         </div>
@@ -756,22 +774,22 @@
                     <div class="paper-item bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
                         <p class="mb-2">9. Y. Zhou, P. He, S. Xiao, F. Kang, L. Hong, Y. Shen, Y. Luo, and J. Xu*, "Realization of tunable index-near-zero modes in nonreciprocal magneto-optical heterostructures," <em>Opt. Express</em> 30(15), 27259-27272 (2022).</p>
                         <div class="paper-meta">
-                            <span class="meta-tag impact">IF: ~3.5</span>
+                            <span class="meta-tag impact">IF: ~3.83</span>
                             <span class="meta-tag citation">引用: 8</span>
                             <span class="meta-tag journal">中科院2区TOP</span>
                         </div>
                     </div>
                     <div class="paper-item bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
-                        <p class="mb-2">10. X. Zhong, M. Ali, X. Wang, W. Lu, K. Yong, D. Feng, Y. Zhou*, and J. Xu*, "Direct growth of hierarchically Ni3S2 nanostructures on nickel foam for enhanced hydrogen evolution reaction," <em>Indian Journal of Chemistry (IJC)</em> 63(1), 105-111 (2024)</p>
+                        <p class="mb-2">10. X. Zhong, M. Ali, X. Wang, W. Lu, K. Yong, D. Feng, Y. Zhou*, and J. Xu*, "Direct growth of hierarchically Ni3S2 nanostructures on nickel foam for enhanced hydrogen evolution reaction," <em>Indian J. Chem. (IJC)</em> 63(1), 105-111 (2024)</p>
                         <div class="paper-meta">
-                            <span class="meta-tag impact">IF: ~1.5</span>
+                            <span class="meta-tag impact">IF: ~0.5</span>
                             <span class="meta-tag citation">引用: 0</span>
                         </div>
                     </div>
                     <div class="paper-item bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
                         <p class="mb-2">11. J. Xu, S. Xiao, P. He, Y. Wang, Y. Shen, L. Hong*, Y. Luo*, and B. He*, "Realization of broadband truly rainbow trapping in gradient-index metamaterials," <em>Opt. Express</em> 30(3), 3941-3953 (2022).</p>
                         <div class="paper-meta">
-                            <span class="meta-tag impact">IF: ~3.5</span>
+                            <span class="meta-tag impact">IF: ~3.83</span>
                             <span class="meta-tag citation">引用: 6</span>
                             <span class="meta-tag journal">中科院2区TOP</span>
                         </div>
@@ -779,14 +797,14 @@
                     <div class="paper-item bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
                         <p class="mb-2">12. K. Yong*, B. Tang, Y. Wang, D. Feng, M. Yang, B. He, Y. Luo, and J. Xu*, "Propagation characteristics study of radially polarized Gaussian vortex beam in ocean turbulence," <em>Optik</em> 270, 170074 (2022).</p>
                         <div class="paper-meta">
-                            <span class="meta-tag impact">IF: ~2.5</span>
+                            <span class="meta-tag impact">IF: ~3.1</span>
                             <span class="meta-tag citation">引用: 4</span>
                         </div>
                     </div>
                     <div class="paper-item bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
                         <p class="mb-2">13. L. Hong, Y. Wang, Y. Shen, X. Deng, K. Yuan, S. Xiao, and J. Xu*, "Broadband energy squeezing and tunneling based on unidirectional modes," <em>Opt. Mater. Express</em> 11(9), 2975-2984 (2021).</p>
                         <div class="paper-meta">
-                            <span class="meta-tag impact">IF: ~3.0</span>
+                            <span class="meta-tag impact">IF: ~3.44</span>
                             <span class="meta-tag citation">引用: 7</span>
                             <span class="meta-tag journal">中科院2区</span>
                         </div>
@@ -794,14 +812,14 @@
                     <div class="paper-item bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
                         <p class="mb-2">14. J. Xu, T. Li, L. Zhang, B. He, D. Feng, and Y. Zhou*, "One‐step synthesis of anionic S‐substitution toward Ni2P (S) nanowires on nickel foam for enhanced hydrogen evolution reaction," <em>Int. J. Energy Res.</em> 45(11), 16973–16983 (2021).</p>
                         <div class="paper-meta">
-                            <span class="meta-tag impact">IF: ~3.0</span>
+                            <span class="meta-tag impact">IF: ~5.16</span>
                             <span class="meta-tag citation">引用: 5</span>
                         </div>
                     </div>
                     <div class="paper-item bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
                         <p class="mb-2">15. J. Xu, P. He, D. Feng, K. Yong, L. Hong, Y. Shen, and Y. Zhou*, "Slow wave and truly rainbow trapping in a one-way terahertz waveguide," <em>Opt. Express</em> 29(7), 11328-11341 (2021).</p>
                         <div class="paper-meta">
-                            <span class="meta-tag impact">IF: ~3.5</span>
+                            <span class="meta-tag impact">IF: ~3.89</span>
                             <span class="meta-tag citation">引用: 9</span>
                             <span class="meta-tag journal">中科院2区TOP</span>
                         </div>
@@ -809,21 +827,21 @@
                     <div class="paper-item bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
                         <p class="mb-2">16. J. Xu, Q. Shen, K. Yuan, X. Deng, Y. Shen, H. Zhang, C. Wu, S. Xiao, and L. Shen*, "Trapping and releasing bidirectional rainbow at terahertz frequencies," <em>Opt. Communications</em> 473, 125999 (2020).</p>
                         <div class="paper-meta">
-                            <span class="meta-tag impact">IF: ~2.0</span>
+                            <span class="meta-tag impact">IF: ~2.12</span>
                             <span class="meta-tag citation">引用: 10</span>
                         </div>
                     </div>
                     <div class="paper-item bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
                         <p class="mb-2">17. J. Xu, X. Deng, H. Zhang*, C. Wu, M. Wubs, S. Xiao, and L. Shen*, "Ultra-subwavelength focusing and giant magnetic-field enhancement in a low-loss one-way waveguide based on remanence," <em>J. Opt.</em> 22(2), 025003 (2020).</p>
                         <div class="paper-meta">
-                            <span class="meta-tag impact">IF: ~2.5</span>
+                            <span class="meta-tag impact">IF: ~2.38</span>
                             <span class="meta-tag citation">引用: 8</span>
                         </div>
                     </div>
                     <div class="paper-item bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
                         <p class="mb-2">18. J. Xu, S. Xiao, C. Wu, H. Zhang, X. Deng, and L. Shen*, "Broadband one-way propagation and rainbow trapping of terahertz radiations," <em>Opt. Express</em> 27(8), 10659-10669 (2019).</p>
                         <div class="paper-meta">
-                            <span class="meta-tag impact">IF: ~3.5</span>
+                            <span class="meta-tag impact">IF: ~3.56</span>
                             <span class="meta-tag citation">引用: 15</span>
                             <span class="meta-tag journal">中科院2区TOP</span>
                         </div>
@@ -848,33 +866,83 @@
                 <div class="space-y-6">
                     <div class="paper-item bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
                         <p>21. S. Fan, T. Guo, B. Zhou, J. Xu, X. Deng, J. Lei, Y. Shen, M. Fu, K. L. Tsakmakidis, and L. Hong*, "Multiple truly topological unidirectional surface magnetoplasmons at terahertz frequencies," <em>Phys. Rev. B</em> 111(23), 235303 (2025).</p>
+                        <div class="paper-meta">
+                            <span class="meta-tag impact">IF: ~3.7</span>
+                            <span class="meta-tag citation">引用: 5</span>
+                            <span class="meta-tag journal">中科院2区</span>
+                        </div>
                     </div>
                     <div class="paper-item bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
                         <p>22. C. Liu, Z. Zhao, T. Guo, J. Xu, X. Deng, K. Yuan, R. Tang, K. L. Tsakmakidis, and L. Hong*, "Robust multimode interference and conversion in topological unidirectional surface magnetoplasmons," <em>Opt. Lett.</em> 50(4), 1253 (2025).</p>
+                        <div class="paper-meta">
+                            <span class="meta-tag impact">IF: ~3.3</span>
+                            <span class="meta-tag citation">引用: 3</span>
+                            <span class="meta-tag journal">中科院2区</span>
+                        </div>
                     </div>
                     <div class="paper-item bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
                         <p>23. T. Zhang, X. Zhang, Y. Shen*, Y. Xu, L. Luo, J. Gu, S. Yang, J. Xu, and X. Deng*, "Experiment on terahertz metasurfaces of metal split ring resonators with bound state in the continuum," <em>APL Mater.</em> 11(5), 051102 (2023).</p>
+                        <div class="paper-meta">
+                            <span class="meta-tag impact">IF: ~6.1</span>
+                            <span class="meta-tag citation">引用: 12</span>
+                            <span class="meta-tag journal">中科院2区</span>
+                        </div>
                     </div>
                     <div class="paper-item bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
                         <p>24. M. Yang, H. Zhang, W. Liu, K. Yong, J. Xu, Y. Luo, and H. Zhang*, "Knowledge graph analysis and visualization of artificial intelligence applied in electrocardiogram," <em>Front. Physiol.</em> 14, 1118360 (2023).</p>
+                        <div class="paper-meta">
+                            <span class="meta-tag impact">IF: ~4.0</span>
+                            <span class="meta-tag citation">引用: 8</span>
+                            <span class="meta-tag journal">中科院3区</span>
+                        </div>
                     </div>
                     <div class="paper-item bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
                         <p>25. C. Liu, D. Li, P. Boutinaud, J. Xu, Y. Du, Y. Hou, C. Zhang, Q. Zhou, and F. Kang*, "Tailoring Electromagnetic Responses in Terahertz Metasurface by Breaking the Structural Symmetry in T-Shaped Resonators," <em>Adv. Photon. Res.</em> 4, 2200356 (2023).</p>
+                        <div class="paper-meta">
+                            <span class="meta-tag impact">IF: ~3.7</span>
+                            <span class="meta-tag citation">引用: 10</span>
+                            <span class="meta-tag journal">中科院2区</span>
+                        </div>
                     </div>
                     <div class="paper-item bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
                         <p>26. F. Kang*, Y. Du, Z. Yang, P. Boutinaud, M. Wubs, J. Xu, H. Ou, D. Li, K. Zheng, A. T. Tarekegne, G. Sun, X. Xu, and S. Xiao*, "Spectral tuning, stabilities under external exposures, and spontaneous enhancement of emission intensity of grown-into-glass all-inorganic metal halide perovskite nanocrystals," <em>Laser Photonics Rev.</em> 17(1), 2200166 (2022). (中科院1区TOP)</p>
+                        <div class="paper-meta">
+                            <span class="meta-tag impact">IF: ~10.95</span>
+                            <span class="meta-tag citation">引用: 25</span>
+                            <span class="meta-tag journal">中科院1区TOP</span>
+                        </div>
                     </div>
                     <div class="paper-item bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
                         <p>27. Q. Shen, Y. You, J. Xu, Y. Shen, X. Deng, Z. Wang, W. Min*, L. Shen, and S. Xiao*, "Mechanically scanned leaky-wave antenna based on a topological one-way waveguide," <em>Front. Phys.</em> 15(3), 33601 (2020). (中科院2区)</p>
+                        <div class="paper-meta">
+                            <span class="meta-tag impact">IF: ~2.5</span>
+                            <span class="meta-tag citation">引用: 15</span>
+                            <span class="meta-tag journal">中科院2区</span>
+                        </div>
                     </div>
                     <div class="paper-item bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
                         <p>28. Q. Shen, L. Shen*, W. Min, J. Xu, C. Wu, X. Deng, and S. Xiao*, "Trapping a magnetic rainbow by using a one-way magnetostatic-like mode," <em>Opt. Mater. Express</em> 9(11), 4399-4408 (2019). (中科院2区)</p>
+                        <div class="paper-meta">
+                            <span class="meta-tag impact">IF: ~2.67</span>
+                            <span class="meta-tag citation">引用: 18</span>
+                            <span class="meta-tag journal">中科院2区</span>
+                        </div>
                     </div>
                     <div class="paper-item bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
                         <p>29. L. Shen, J. Xu, Y. You, K. Yuan*, and X. Deng, "One-Way Electromagnetic Mode Guided by the Mechanism of Total Internal Reflection," <em>IEEE Photon. Technol. Lett.</em> 30(2), 133–136 (2018).</p>
+                        <div class="paper-meta">
+                            <span class="meta-tag impact">IF: ~2.45</span>
+                            <span class="meta-tag citation">引用: 20</span>
+                            <span class="meta-tag journal">中科院3区</span>
+                        </div>
                     </div>
                     <div class="paper-item bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
                         <p>30. L. He, Q. Shen, J. Xu, Y. You, T. Yu, L. Shen*, and X. Deng*, "One-way edge modes in a photonic crystal of semiconductor at terahertz frequencies," <em>Sci. Rep.</em> 8(1), 8165 (2018).</p>
+                        <div class="paper-meta">
+                            <span class="meta-tag impact">IF: ~4.12</span>
+                            <span class="meta-tag citation">引用: 22</span>
+                            <span class="meta-tag journal">中科院3区</span>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -1114,141 +1182,6 @@
         });
     </script>
 
-<!-- 操作按钮 -->
-<div style="position:fixed;bottom:20px;right:20px;z-index:9999;display:flex;gap:8px;flex-wrap:wrap;">
-  <button id="editBtn" class="px-4 py-2 bg-blue-600 text-white rounded">开启编辑</button>
-  <button id="sourceBtn" class="px-4 py-2 bg-purple-600 text-white rounded hidden">编辑源码</button>
-  <button id="exportBtn" class="px-4 py-2 bg-green-600 text-white rounded">导出只读分享版</button>
-</div>
 
-<!-- 右键菜单 -->
-<div id="contextMenu" style="display:none;position:absolute;z-index:99999;background:white;border:1px solid #ddd;border-radius:6px;box-shadow:0 2px 10px rgba(0,0,0,0.1);padding:8px 0;">
-  <div id="addItem" style="padding:8px 16px;cursor:pointer;font-size:14px;hover:bg-gray-100;">➕ 新增同级条目</div>
-</div>
-
-<!-- 源码编辑器弹窗 -->
-<div id="sourceModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:99999;justify-content:center;align-items:center;">
-  <div style="background:white;width:90%;max-width:1200px;height:85vh;border-radius:8px;display:flex;flex-direction:column;">
-    <div style="padding:16px;border-bottom:1px solid #ddd;display:flex;justify-content:space-between;align-items:center;">
-      <h3 class="font-bold text-lg">HTML源码编辑器（已自动定位到鼠标点击位置）</h3>
-      <div>
-        <button id="saveSource" class="px-4 py-1 bg-green-600 text-white rounded mr-2">保存修改</button>
-        <button id="closeSource" class="px-4 py-1 bg-gray-500 text-white rounded">关闭</button>
-      </div>
-    </div>
-    <textarea id="sourceArea" style="flex:1;padding:16px;font-family:Consolas,monospace;resize:none;outline:none;border:none;line-height:1.5;"></textarea>
-  </div>
-</div>
-
-<script>
-// 全局变量
-let isEdit = false;
-let targetElement = null;
-let clickPosition = { offset: 0, text: "" }; // 记录鼠标精确点击位置
-const menu = document.getElementById('contextMenu');
-const main = document.querySelector('main');
-
-// 🔥 核心优化：记录鼠标点击的精确字符位置（精准到光标）
-document.addEventListener('click', function(e) {
-  if(!isEdit) return;
-  const sel = window.getSelection();
-  const target = e.target.closest('.paper-item, .project-item, p, h2, h3, li, span');
-  if(!target) return;
-  
-  const range = document.createRange();
-  range.selectNodeContents(target);
-  const preText = range.toString().substring(0, sel.anchorOffset);
-  clickPosition = {
-    element: target,
-    offset: sel.anchorOffset,
-    fullText: target.innerText,
-    targetHtml: target.outerHTML
-  };
-});
-
-// 切换编辑模式
-document.getElementById('editBtn').onclick = function(){
-  isEdit = !isEdit;
-  main.contentEditable = isEdit;
-  this.textContent = isEdit ? '关闭编辑' : '开启编辑';
-  document.getElementById('sourceBtn').classList.toggle('hidden', !isEdit);
-  alert(isEdit ? '编辑已开启：\n✅ 鼠标点击任意文字后，点「编辑源码」直接定位到点击处' : '编辑已关闭');
-};
-
-// 右键菜单：仅在论文/项目/专利条目生效
-document.addEventListener('contextmenu', function(e){
-  if(!isEdit) return;
-  const el = e.target.closest('.paper-item,.project-item');
-  if(el){
-    e.preventDefault();
-    targetElement = el;
-    menu.style.display = 'block';
-    menu.style.left = e.pageX + 'px';
-    menu.style.top = e.pageY + 'px';
-  } else {
-    menu.style.display = 'none';
-  }
-});
-
-// 点击空白关闭右键菜单
-document.addEventListener('click', function(){
-  menu.style.display = 'none';
-});
-
-// 右键新增同级条目
-document.getElementById('addItem').onclick = function(){
-  if(!targetElement) return;
-  const newItem = targetElement.cloneNode(true);
-  newItem.innerHTML = '<p>请输入新内容</p>';
-  targetElement.after(newItem);
-  menu.style.display = 'none';
-};
-
-// 🔥 核心优化：源码编辑器自动跳转到鼠标点击的精确位置
-document.getElementById('sourceBtn').onclick = function(){
-  const sourceArea = document.getElementById('sourceArea');
-  const fullHtml = document.documentElement.outerHTML;
-  sourceArea.value = fullHtml;
-  document.getElementById('sourceModal').style.display = 'flex';
-
-  if(!clickPosition.targetHtml) return;
-  // 查找点击元素在源码中的位置
-  const elemPos = fullHtml.indexOf(clickPosition.targetHtml);
-  if(elemPos === -1) return;
-  
-  // 计算精确光标位置
-  const exactPos = elemPos + clickPosition.targetHtml.indexOf(clickPosition.fullText) + clickPosition.offset;
-  sourceArea.focus();
-  sourceArea.setSelectionRange(exactPos, exactPos);
-  // 自动滚动到光标位置
-  sourceArea.scrollTop = (exactPos / 100) * 20 - 150;
-};
-
-document.getElementById('closeSource').onclick = function(){
-  document.getElementById('sourceModal').style.display = 'none';
-};
-
-document.getElementById('saveSource').onclick = function(){
-  const newHtml = document.getElementById('sourceArea').value;
-  document.open();
-  document.write(newHtml);
-  document.close();
-  alert('源码已保存！页面已更新');
-};
-
-// 一键导出纯只读分享版
-document.getElementById('exportBtn').onclick = function(){
-  let cleanHtml = document.documentElement.outerHTML
-    .replace(/<!-- ==============================================[\s\S]*?<\/script>/, '');
-  
-  const blob = new Blob([cleanHtml], {type:'text/html;charset=utf-8'});
-  const a = document.createElement('a');
-  a.download = "徐杰-只读简历.html";
-  a.href = URL.createObjectURL(blob);
-  a.click();
-  URL.revokeObjectURL(a.href);
-  alert("导出成功！纯只读版简历已下载");
-};
-</script>
 </body>
 </html>

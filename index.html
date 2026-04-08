@@ -1,4 +1,6 @@
-<html lang="zh-CN"><head>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>徐杰 - 西南医科大学 副教授</title>
@@ -9,24 +11,459 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: '#1e40af',
-                        secondary: '#3b82f6',
-                        accent: '#60a5fa',
-                        dark: '#1e293b',
-                        light: '#f8fafc'
+                        primary: '#0f4c81', // 专业学术蓝
+                        secondary: '#2c5aa0',
+                        accent: '#4a7fb7',
+                        dark: '#1a1a1a', // 深灰色，更专业
+                        light: '#f5f5f5'
                     }
                 }
             }
         }
+        
+        // 页面加载完成后初始化所有功能
+        document.addEventListener('DOMContentLoaded', function() {
+            try {
+                // 移动端菜单切换
+                const menuToggle = document.getElementById('menuToggle');
+                const mobileMenu = document.getElementById('mobileMenu');
+                
+                if (menuToggle && mobileMenu) {
+                    menuToggle.addEventListener('click', function() {
+                        mobileMenu.classList.toggle('hidden');
+                    });
+                }
+                
+                // 平滑滚动
+                const navLinks = document.querySelectorAll('.nav-link');
+                navLinks.forEach(link => {
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const targetId = this.getAttribute('href');
+                        const targetElement = document.querySelector(targetId);
+                        
+                        if (targetElement) {
+                            // 关闭移动菜单
+                            if (mobileMenu) {
+                                mobileMenu.classList.add('hidden');
+                            }
+                            
+                            // 平滑滚动
+                            window.scrollTo({
+                                top: targetElement.offsetTop - 100,
+                                behavior: 'smooth'
+                            });
+                        }
+                    });
+                });
+                
+                // 滚动监听，高亮当前导航项
+                window.addEventListener('scroll', function() {
+                    const sections = document.querySelectorAll('section');
+                    const scrollPosition = window.scrollY + 150;
+                    
+                    sections.forEach(section => {
+                        const sectionTop = section.offsetTop;
+                        const sectionHeight = section.offsetHeight;
+                        const sectionId = section.getAttribute('id');
+                        
+                        if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                            navLinks.forEach(link => {
+                                link.classList.remove('active');
+                                if (link.getAttribute('href') === `#${sectionId}`) {
+                                    link.classList.add('active');
+                                }
+                            });
+                        }
+                    });
+                });
+                
+                // 滚动动画
+                const animateElements = document.querySelectorAll('.animate-on-scroll');
+                
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                        }
+                    });
+                }, {
+                    threshold: 0.1
+                });
+                
+                animateElements.forEach(element => {
+                    observer.observe(element);
+                });
+                
+                console.log('所有功能初始化成功');
+            } catch (error) {
+                console.error('功能初始化失败:', error);
+            }
+        });
     </script>
     <style>
-        .section-title { @apply text-2xl font-bold text-primary border-b-2 border-primary pb-2 mb-6 mt-12; }
-        .paper-item { @apply mb-4 pl-4 border-l-2 border-gray-200 hover:border-primary transition-colors; }
-        .project-item { @apply mb-3 pl-4 border-l-2 border-gray-200 hover:border-primary transition-colors; }
-        .nav-link { @apply block py-2 px-4 rounded hover:bg-primary/10 transition-colors; }
-        .nav-link.active { @apply bg-primary/10 text-primary font-medium; }
+        /* 模块标题全新设计（个人概况/研究领域等）- 放大字号+增强视觉 */
+        .section-title {
+            @apply flex items-center gap-3 font-bold text-primary mb-6 mt-6 px-4 py-3 border-l-4 border-primary bg-primary/5 rounded-r-lg;
+            font-size: 1.5rem;
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        @media (min-width: 1024px) {
+            .section-title {
+                font-size: 1.75rem;
+            }
+        }
+        /* 论文/项目条目优化 - 增大字号、增加行高，更舒展 */
+        .paper-item { 
+            @apply mb-4 pl-6 border-l-2 border-gray-200 hover:border-primary transition-colors;
+            @apply text-base sm:text-lg leading-relaxed;
+            animation: fadeInUp 0.6s ease-out;
+        }
+        .project-item { 
+            @apply mb-5 bg-white rounded-lg shadow-sm p-5 transition-all duration-300 hover:shadow-md;
+            @apply text-base sm:text-lg leading-relaxed;
+            animation: fadeInUp 0.6s ease-out;
+        }
+        .project-item.in-progress {
+            @apply border-l-4 border-primary;
+        }
+        .project-item.completed {
+            @apply border-l-4 border-gray-400;
+        }
+        /* 论文元数据标签 */
+        .paper-meta { 
+            @apply flex flex-wrap gap-2 mt-2;
+        }
+        .meta-tag { 
+            @apply px-3 py-1 rounded-full text-xs font-medium;
+        }
+        .meta-tag.impact { 
+            @apply bg-primary/10 text-primary;
+        }
+        .meta-tag.citation { 
+            @apply bg-gray-100 text-gray-600;
+        }
+        .meta-tag.journal { 
+            @apply bg-green-100 text-green-700;
+        }
+        /* 研究领域子标题 */
+        #research h3 {
+            @apply text-xl font-bold mb-4 text-primary;
+        }
+        /* 研究领域段落间距 */
+        #research p {
+            @apply mb-4 leading-relaxed;
+        }
+        
+        /* 导航样式优化 */
+        .nav-link {
+            @apply flex items-center gap-3 w-full py-3 px-4 rounded-lg text-gray-600 transition-all duration-300;
+            @apply border-l-4 border-transparent;
+        }
+        .nav-link:hover {
+            @apply text-primary bg-primary/15 border-primary;
+            transform: translateX(5px);
+        }
+        .nav-link.active {
+            @apply text-primary bg-primary/20 border-primary font-medium;
+        }
+
+        /* 科研论文子标题（第一/通讯作者等）- 放大+加粗+增强间距 */
+        .pub-subtitle {
+            @apply text-xl font-bold mb-5 text-primary;
+            letter-spacing: 0.5px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        /* 通用文本优化 - 提升整体可读性 */
+        main p, main li {
+            @apply text-base sm:text-lg leading-relaxed mb-3;
+        }
+
+        /* 表格文字优化 */
+        table {
+            @apply text-base sm:text-lg;
+        }
+        
+        /* 个人概况部分优化 */
+        #about h3 {
+            @apply text-xl font-bold mb-3 text-primary;
+        }
+        
+        /* 教学成果部分优化 */
+        #teaching h3 {
+            @apply text-lg font-bold mb-3 text-primary;
+        }
+        
+        /* 专利部分优化 */
+        #patents h3 {
+            @apply text-lg font-bold mb-3 text-primary;
+        }
+        
+        /* 移动端优化 */
+        @media (max-width: 640px) {
+            .section-title {
+                @apply text-xl px-3 py-3;
+                font-size: 1.25rem !important;
+            }
+            
+            .pub-subtitle {
+                @apply text-lg;
+            }
+            
+            .paper-item, .project-item {
+                @apply p-3;
+                margin-bottom: 1rem;
+            }
+            
+            table {
+                @apply text-xs;
+                font-size: 0.75rem;
+            }
+            
+            th, td {
+                @apply px-2 py-1;
+                padding: 6px;
+            }
+            
+            .grid md:grid-cols-2 {
+                @apply grid-cols-1;
+            }
+            
+            .grid md:grid-cols-4 {
+                @apply grid-cols-2;
+            }
+            
+            .flex flex-wrap gap-3 {
+                @apply gap-2;
+            }
+            
+            .px-4 {
+                @apply px-3;
+            }
+            
+            .py-4 {
+                @apply py-3;
+            }
+            
+            /* 个人信息部分调整 */
+            .container {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            
+            /* 调整侧边栏在移动端的显示 */
+            aside {
+                margin-bottom: 2rem;
+            }
+            
+            /* 调整论文元数据标签在移动端的显示 */
+            .paper-meta {
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+            
+            .meta-tag {
+                font-size: 0.75rem;
+                padding: 0.25rem 0.75rem;
+            }
+        }
+        
+        /* 微动画效果 */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* 滚动动画 */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* 按钮动画 */
+        button {
+            transition: all 0.3s ease;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(30, 64, 175, 0.2);
+        }
+        
+        /* 卡片悬停效果 */
+        .paper-item, .project-item {
+            transition: all 0.3s ease;
+        }
+        
+        .paper-item:hover, .project-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(30, 64, 175, 0.1);
+        }
+        
+        /* 固定导航 */
+        @media (min-width: 1024px) {
+            .fixed-nav {
+                position: sticky;
+                top: 5rem;
+                z-index: 10;
+            }
+        }
+        
+        /* 工具栏样式 */
+        #toolbar {
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* 右键菜单样式 */
+        #contextMenu {
+            position: fixed;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            padding: 8px 0;
+        }
+        
+        #contextMenu .menu-item {
+            padding: 8px 16px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        
+        #contextMenu .menu-item:hover {
+            background-color: #f0f0f0;
+        }
+        
+        /* 编辑器样式 */
+        .editor-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .editor-content {
+            background: white;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        
+        .editor-content textarea {
+            width: 100%;
+            min-height: 300px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 14px;
+        }
+        
+        .editor-actions {
+            margin-top: 15px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        
+        /* 高亮样式 */
+        .highlighted {
+            background-color: rgba(15, 76, 129, 0.1);
+            border-left: 3px solid #0f4c81;
+        }
+        
+        /* 打印友好样式 */
+        @media print {
+            /* 隐藏不需要打印的元素 */
+            nav, .fixed-nav {
+                display: none;
+            }
+            
+            /* 调整布局为单栏 */
+            .container {
+                max-width: 100%;
+                padding: 0;
+            }
+            
+            main {
+                width: 100%;
+                padding: 0;
+            }
+            
+            /* 调整字体和间距 */
+            body {
+                font-size: 12pt;
+                line-height: 1.4;
+            }
+            
+            .section-title {
+                font-size: 14pt !important;
+                page-break-after: avoid;
+            }
+            
+            .pub-subtitle {
+                font-size: 12pt !important;
+            }
+            
+            /* 确保表格适合打印 */
+            table {
+                font-size: 10pt;
+                page-break-inside: avoid;
+            }
+            
+            th, td {
+                padding: 8px;
+            }
+            
+            /* 确保论文和项目条目适合打印 */
+            .paper-item, .project-item {
+                page-break-inside: avoid;
+                margin-bottom: 10px;
+            }
+            
+            /* 移除动画和过渡效果 */
+            * {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
     </style>
-<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.container{width:100%}@media (min-width: 640px){.container{max-width:640px}}@media (min-width: 768px){.container{max-width:768px}}@media (min-width: 1024px){.container{max-width:1024px}}@media (min-width: 1280px){.container{max-width:1280px}}@media (min-width: 1536px){.container{max-width:1536px}}.fixed{position:fixed}.left-0{left:0px}.right-0{right:0px}.top-0{top:0px}.z-50{z-index:50}.mx-auto{margin-left:auto;margin-right:auto}.mb-2{margin-bottom:0.5rem}.mb-4{margin-bottom:1rem}.mb-6{margin-bottom:1.5rem}.mb-8{margin-bottom:2rem}.mt-0{margin-top:0px}.mt-2{margin-top:0.5rem}.mt-6{margin-top:1.5rem}.mr-2{margin-right:0.5rem}.flex{display:flex}.grid{display:grid}.hidden{display:none}.h-10{height:2.5rem}.h-32{height:8rem}.h-fit{height:-moz-fit-content;height:fit-content}.w-10{width:2.5rem}.w-32{width:8rem}.w-6{width:1.5rem}.w-full{width:100%}.border-collapse{border-collapse:collapse}.list-disc{list-style-type:disc}.flex-col{flex-direction:column}.items-center{align-items:center}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-4{gap:1rem}.gap-8{gap:2rem}.space-x-4 > :not([hidden]) ~ :not([hidden]){--tw-space-x-reverse:0;margin-right:calc(1rem * var(--tw-space-x-reverse));margin-left:calc(1rem * calc(1 - var(--tw-space-x-reverse)))}.space-y-1 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.25rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.25rem * var(--tw-space-y-reverse))}.space-y-2 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.5rem * var(--tw-space-y-reverse))}.space-y-3 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.75rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.75rem * var(--tw-space-y-reverse))}.space-y-4 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1rem * var(--tw-space-y-reverse))}.space-y-6 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1.5rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1.5rem * var(--tw-space-y-reverse))}.overflow-x-auto{overflow-x:auto}.rounded-full{border-radius:9999px}.rounded-lg{border-radius:0.5rem}.rounded{border-radius:0.25rem}.border{border-width:1px}.border-t{border-top-width:1px}.border-gray-200{--tw-border-opacity:1;border-color:rgb(229 231 235 / var(--tw-border-opacity, 1))}.bg-gray-100{--tw-bg-opacity:1;background-color:rgb(243 244 246 / var(--tw-bg-opacity, 1))}.bg-gray-50{--tw-bg-opacity:1;background-color:rgb(249 250 251 / var(--tw-bg-opacity, 1))}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity, 1))}.bg-blue-600{--tw-bg-opacity:1;background-color:rgb(37 99 235 / var(--tw-bg-opacity, 1))}.bg-gray-500{--tw-bg-opacity:1;background-color:rgb(107 114 128 / var(--tw-bg-opacity, 1))}.bg-green-600{--tw-bg-opacity:1;background-color:rgb(22 163 74 / var(--tw-bg-opacity, 1))}.bg-purple-600{--tw-bg-opacity:1;background-color:rgb(147 51 234 / var(--tw-bg-opacity, 1))}.bg-gradient-to-br{background-image:linear-gradient(to bottom right, var(--tw-gradient-stops))}.from-primary{--tw-gradient-from:#1e40af var(--tw-gradient-from-position);--tw-gradient-to:rgb(30 64 175 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.to-secondary{--tw-gradient-to:#3b82f6 var(--tw-gradient-to-position)}.p-4{padding:1rem}.p-6{padding:1.5rem}.px-4{padding-left:1rem;padding-right:1rem}.py-3{padding-top:0.75rem;padding-bottom:0.75rem}.py-8{padding-top:2rem;padding-bottom:2rem}.py-1{padding-top:0.25rem;padding-bottom:0.25rem}.py-2{padding-top:0.5rem;padding-bottom:0.5rem}.pl-6{padding-left:1.5rem}.pt-16{padding-top:4rem}.text-left{text-align:left}.text-center{text-align:center}.text-3xl{font-size:1.875rem;line-height:2.25rem}.text-4xl{font-size:2.25rem;line-height:2.5rem}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.font-bold{font-weight:700}.font-semibold{font-weight:600}.leading-relaxed{line-height:1.625}.text-dark{--tw-text-opacity:1;color:rgb(30 41 59 / var(--tw-text-opacity, 1))}.text-gray-500{--tw-text-opacity:1;color:rgb(107 114 128 / var(--tw-text-opacity, 1))}.text-gray-600{--tw-text-opacity:1;color:rgb(75 85 99 / var(--tw-text-opacity, 1))}.text-primary{--tw-text-opacity:1;color:rgb(30 64 175 / var(--tw-text-opacity, 1))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.shadow-lg{--tw-shadow:0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-md{--tw-shadow:0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.hover\:bg-gray-50:hover{--tw-bg-opacity:1;background-color:rgb(249 250 251 / var(--tw-bg-opacity, 1))}.hover\:bg-primary:hover{--tw-bg-opacity:1;background-color:rgb(30 64 175 / var(--tw-bg-opacity, 1))}.hover\:text-primary:hover{--tw-text-opacity:1;color:rgb(30 64 175 / var(--tw-text-opacity, 1))}.hover\:text-white:hover{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.focus\:outline-none:focus{outline:2px solid transparent;outline-offset:2px}@media (min-width: 768px){.md\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}}@media (min-width: 1024px){.lg\:sticky{position:sticky}.lg\:top-8{top:2rem}.lg\:block{display:block}.lg\:hidden{display:none}.lg\:w-1\/4{width:25%}.lg\:w-3\/4{width:75%}.lg\:flex-row{flex-direction:row}.lg\:py-12{padding-top:3rem;padding-bottom:3rem}.lg\:pt-0{padding-top:0px}}</style></head>
+</head>
 <body class="bg-gray-50 text-dark">
     <!-- 顶部导航栏（移动端） -->
     <nav class="lg:hidden fixed top-0 left-0 right-0 bg-white shadow-md z-50">
@@ -37,21 +474,21 @@
             </button>
         </div>
         <div id="mobileMenu" class="hidden bg-white border-t">
-            <a href="#about" class="nav-link">个人概况</a>
-            <a href="#experience" class="nav-link">教育工作经历</a>
-            <a href="#research" class="nav-link">研究领域</a>
-            <a href="#publications" class="nav-link active">科研论文</a>
-            <a href="#projects" class="nav-link">科研项目</a>
-            <a href="#teaching" class="nav-link">教学成果</a>
-            <a href="#patents" class="nav-link">专利</a>
+            <a href="#about" class="nav-link"><i class="fa fa-user w-5 text-center"></i>个人概况</a>
+            <a href="#experience" class="nav-link"><i class="fa fa-graduation-cap w-5 text-center"></i>教育工作经历</a>
+            <a href="#research" class="nav-link"><i class="fa fa-flask w-5 text-center"></i>研究领域</a>
+            <a href="#publications" class="nav-link"><i class="fa fa-file-text w-5 text-center"></i>科研论文</a>
+            <a href="#projects" class="nav-link"><i class="fa fa-tasks w-5 text-center"></i>科研项目</a>
+            <a href="#teaching" class="nav-link"><i class="fa fa-book w-5 text-center"></i>教学成果</a>
+            <a href="#patents" class="nav-link"><i class="fa fa-lightbulb-o w-5 text-center"></i>专利</a>
         </div>
     </nav>
 
     <div class="container mx-auto px-4 py-8 lg:py-12 flex flex-col lg:flex-row gap-8">
         <!-- 左侧边栏 -->
-        <aside class="lg:w-1/4 lg:sticky lg:top-8 h-fit">
-            <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
-                <div class="text-center mb-6">
+        <aside class="lg:w-1/4 h-fit fixed-nav">
+            <div class="bg-white rounded-lg shadow-lg p-6 mb-3">
+                <div class="text-center mb-3">
                     <div class="w-32 h-32 mx-auto rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white text-4xl font-bold mb-4">
                         徐
                     </div>
@@ -81,7 +518,7 @@
                     <a href="https://www.researchgate.net/profile/Jie-Xu-152" target="_blank" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-primary hover:text-white">
                         <i class="fa fa-flask"></i>
                     </a>
-                    <a href="https://scholar.google.com/citations?hl=zh-CN&amp;user=ATRIZF0AAAAJ" target="_blank" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-primary hover:text-white">
+                    <a href="https://scholar.google.com/citations?hl=zh-CN&user=ATRIZF0AAAAJ" target="_blank" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-primary hover:text-white">
                         <i class="fa fa-graduation-cap"></i>
                     </a>
                 </div>
@@ -89,77 +526,129 @@
 
             <!-- 桌面端导航 -->
             <div class="hidden lg:block bg-white rounded-lg shadow-lg p-4">
-                <nav class="space-y-1">
-                    <a href="#about" class="nav-link">个人概况</a>
-                    <a href="#experience" class="nav-link">教育工作经历</a>
-                    <a href="#research" class="nav-link">研究领域</a>
-                    <a href="#publications" class="nav-link active">科研论文</a>
-                    <a href="#projects" class="nav-link">科研项目</a>
-                    <a href="#teaching" class="nav-link">教学成果</a>
-                    <a href="#patents" class="nav-link">专利</a>
+                <nav class="flex flex-col space-y-2">
+                    <a href="#about" class="nav-link active">
+                        <i class="fa fa-user w-5 text-center"></i>个人概况
+                    </a>
+                    <a href="#experience" class="nav-link">
+                        <i class="fa fa-graduation-cap w-5 text-center"></i>教育工作经历
+                    </a>
+                    <a href="#research" class="nav-link">
+                        <i class="fa fa-flask w-5 text-center"></i>研究领域
+                    </a>
+                    <a href="#publications" class="nav-link">
+                        <i class="fa fa-file-text w-5 text-center"></i>科研论文
+                    </a>
+                    <a href="#projects" class="nav-link">
+                        <i class="fa fa-tasks w-5 text-center"></i>科研项目
+                    </a>
+                    <a href="#teaching" class="nav-link">
+                        <i class="fa fa-book w-5 text-center"></i>教学成果
+                    </a>
+                    <a href="#patents" class="nav-link">
+                        <i class="fa fa-lightbulb-o w-5 text-center"></i>专利
+                    </a>
                 </nav>
             </div>
         </aside>
 
         <!-- 主内容区 -->
-        <main class="lg:w-3/4 pt-16 lg:pt-0" contenteditable="true">
+        <main class="lg:w-3/4 pt-24 lg:pt-12">
             <!-- 个人概况 -->
-            <section id="about" class="bg-white rounded-lg shadow-lg p-6 mb-8">
-                <h2 class="section-title mt-0">个人概况</h2>
-                <div class="grid md:grid-cols-2 gap-4 mb-6">
+            <section id="about" class="bg-white rounded-lg shadow-lg p-6 mb-5 animate-on-scroll">
+                <h2 class="section-title mt-0"><i class="fa fa-user text-primary"></i>个人概况</h2>
+                <div class="grid md:grid-cols-2 gap-4 mb-3">
                     <div>
                         <p><strong>政治面貌:</strong> 无党派人士</p>
                         <p><strong>出生年月:</strong> 1993年1月</p>
                         <p><strong>籍贯:</strong> 江西乐平</p>
                     </div>
                 </div>
+                
+                <!-- 个人亮点 -->
+                <div class="mb-3">
+                    <h3 class="text-xl font-bold mb-4 text-primary">个人亮点</h3>
+                    <div class="flex flex-wrap gap-3">
+                        <span class="px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium">磁光单向波导</span>
+                        <span class="px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium">全光逻辑器件</span>
+                        <span class="px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium">拓扑光子学</span>
+                        <span class="px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium">青年科学基金项目</span>
+                    </div>
+                </div>
+                
+                <!-- 学术指标 -->
+                <div class="mb-3">
+                    <h3 class="text-xl font-bold mb-4 text-primary">学术指标</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="bg-primary/5 p-4 rounded-lg text-center">
+                            <p class="text-2xl font-bold text-primary">30+</p>
+                            <p class="text-sm text-gray-600">发表SCI论文</p>
+                        </div>
+                        <div class="bg-primary/5 p-4 rounded-lg text-center">
+                            <p class="text-2xl font-bold text-primary">18</p>
+                            <p class="text-sm text-gray-600">第一/通讯作者论文</p>
+                        </div>
+                        <div class="bg-primary/5 p-4 rounded-lg text-center">
+                            <p class="text-2xl font-bold text-primary">80+</p>
+                            <p class="text-sm text-gray-600">总引用次数</p>
+                        </div>
+                        <div class="bg-primary/5 p-4 rounded-lg text-center">
+                            <p class="text-2xl font-bold text-primary">8</p>
+                            <p class="text-sm text-gray-600">h-index</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <p class="leading-relaxed mb-4">
+                    分别于2014年、2017年以及2020年在南昌大学取得学士学位、硕士研究生学位以及博士研究生学位。2020年博士毕业后任职于西南医科大学。主要研究领域包括磁光异质结构相关理论及其在亚波长及超亚波长功能器件中的应用研究、慢光、超材料、异常光学透射、近零折射率模式与材料研究。
+                </p>
                 <p class="leading-relaxed">
-                    分别于2014年、2017年以及2020年在南昌大学取得学士学位、硕士研究生学位以及博士研究生学位。2020年博士毕业后任职于西南医科大学。主要研究领域包括磁光异质结构相关理论及其在亚波长及超亚波长功能器件中的应用研究、慢光、超材料、异常光学透射、近零折射率模式与材料研究。近期研究重心在利用磁光异质结构进行全光逻辑门的设计与实现及拓扑光子学中的奇异光现象。
+                    近期研究重心在利用磁光异质结构进行全光逻辑门的设计与实现及拓扑光子学中的奇异光现象。已发表SCI论文30余篇，其中第一作者/通讯作者18篇，包括Nature序列期刊和中科院一区论文。
                 </p>
             </section>
 
             <!-- 教育工作经历 -->
-            <section id="experience" class="bg-white rounded-lg shadow-lg p-6 mb-8">
-                <h2 class="section-title">教育/工作经历</h2>
+            <section id="experience" class="bg-white rounded-lg shadow-lg p-6 mb-5 animate-on-scroll">
+                <h2 class="section-title"><i class="fa fa-graduation-cap text-primary"></i>教育/工作经历</h2>
                 <div class="overflow-x-auto">
                     <table class="w-full border-collapse">
                         <thead>
-                            <tr class="bg-gray-50">
-                                <th class="border border-gray-200 px-4 py-3 text-left">时间</th>
-                                <th class="border border-gray-200 px-4 py-3 text-left">单位</th>
-                                <th class="border border-gray-200 px-4 py-3 text-left">职位/专业</th>
+                            <tr class="bg-primary/10">
+                                <th class="border border-gray-200 px-6 py-4 text-left font-bold text-primary">时间</th>
+                                <th class="border border-gray-200 px-6 py-4 text-left font-bold text-primary">单位</th>
+                                <th class="border border-gray-200 px-6 py-4 text-left font-bold text-primary">职位/专业</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="hover:bg-gray-50">
-                                <td class="border border-gray-200 px-4 py-3">2023.12-至今</td>
-                                <td class="border border-gray-200 px-4 py-3">西南医科大学</td>
-                                <td class="border border-gray-200 px-4 py-3">副教授</td>
+                            <tr class="hover:bg-primary/5 transition-colors duration-200">
+                                <td class="border border-gray-200 px-6 py-4 font-medium">2023.12-至今</td>
+                                <td class="border border-gray-200 px-6 py-4">西南医科大学</td>
+                                <td class="border border-gray-200 px-6 py-4">副教授</td>
                             </tr>
-                            <tr class="hover:bg-gray-50">
-                                <td class="border border-gray-200 px-4 py-3">2020.12-2023.12</td>
-                                <td class="border border-gray-200 px-4 py-3">西南医科大学</td>
-                                <td class="border border-gray-200 px-4 py-3">讲师</td>
+                            <tr class="hover:bg-primary/5 transition-colors duration-200">
+                                <td class="border border-gray-200 px-6 py-4 font-medium">2020.12-2023.12</td>
+                                <td class="border border-gray-200 px-6 py-4">西南医科大学</td>
+                                <td class="border border-gray-200 px-6 py-4">讲师</td>
                             </tr>
-                            <tr class="hover:bg-gray-50">
-                                <td class="border border-gray-200 px-4 py-3">2017.09-2020.07</td>
-                                <td class="border border-gray-200 px-4 py-3">南昌大学</td>
-                                <td class="border border-gray-200 px-4 py-3">材料科学与工程 博士</td>
+                            <tr class="hover:bg-primary/5 transition-colors duration-200">
+                                <td class="border border-gray-200 px-6 py-4 font-medium">2017.09-2020.07</td>
+                                <td class="border border-gray-200 px-6 py-4">南昌大学</td>
+                                <td class="border border-gray-200 px-6 py-4">材料科学与工程 博士</td>
                             </tr>
-                            <tr class="hover:bg-gray-50">
-                                <td class="border border-gray-200 px-4 py-3">2018.11-2020.02</td>
-                                <td class="border border-gray-200 px-4 py-3">丹麦技术大学</td>
-                                <td class="border border-gray-200 px-4 py-3">光学工程 访学博士生</td>
+                            <tr class="hover:bg-primary/5 transition-colors duration-200">
+                                <td class="border border-gray-200 px-6 py-4 font-medium">2018.11-2020.02</td>
+                                <td class="border border-gray-200 px-6 py-4">丹麦技术大学</td>
+                                <td class="border border-gray-200 px-6 py-4">光学工程 访学博士生</td>
                             </tr>
-                            <tr class="hover:bg-gray-50">
-                                <td class="border border-gray-200 px-4 py-3">2014.09-2017.06</td>
-                                <td class="border border-gray-200 px-4 py-3">南昌大学</td>
-                                <td class="border border-gray-200 px-4 py-3">等离子体物理 硕士</td>
+                            <tr class="hover:bg-primary/5 transition-colors duration-200">
+                                <td class="border border-gray-200 px-6 py-4 font-medium">2014.09-2017.06</td>
+                                <td class="border border-gray-200 px-6 py-4">南昌大学</td>
+                                <td class="border border-gray-200 px-6 py-4">等离子体物理 硕士</td>
                             </tr>
-                            <tr class="hover:bg-gray-50">
-                                <td class="border border-gray-200 px-4 py-3">2010.09-2014.06</td>
-                                <td class="border border-gray-200 px-4 py-3">南昌大学</td>
-                                <td class="border border-gray-200 px-4 py-3">应用物理学 本科</td>
+                            <tr class="hover:bg-primary/5 transition-colors duration-200">
+                                <td class="border border-gray-200 px-6 py-4 font-medium">2010.09-2014.06</td>
+                                <td class="border border-gray-200 px-6 py-4">南昌大学</td>
+                                <td class="border border-gray-200 px-6 py-4">应用物理学 本科</td>
                             </tr>
                         </tbody>
                     </table>
@@ -167,23 +656,23 @@
             </section>
 
             <!-- 研究领域 -->
-            <section id="research" class="bg-white rounded-lg shadow-lg p-6 mb-8">
-                <h2 class="section-title">研究领域</h2>
-                <div class="space-y-6">
+            <section id="research" class="bg-white rounded-lg shadow-lg p-6 mb-5 animate-on-scroll">
+                <h2 class="section-title"><i class="fa fa-flask text-primary"></i>研究领域</h2>
+                <div class="space-y-8">
                     <div>
-                        <h3 class="text-lg font-semibold mb-2 text-primary">磁光单向波导</h3>
+                        <h3 class="text-xl lg:text-2xl font-bold mb-3 text-primary">磁光单向波导</h3>
                         <p class="leading-relaxed">
                             由于外磁场或者剩磁的存在，磁光系统中电磁波的传输特性呈现非互易性，通常利用这种特性可以设计支持电磁波单向传输的单向波导结构。而这些结构也将可以用在一些特定功能的应用上，如利用单向波导进行能量缓存与释放，进行光缓存及光开关的应用。
                         </p>
                     </div>
                     <div>
-                        <h3 class="text-lg font-semibold mb-2 text-primary">INZ电磁模式理论及应用研究</h3>
+                        <h3 class="text-xl lg:text-2xl font-bold mb-3 text-primary">INZ电磁模式理论及应用研究</h3>
                         <p class="leading-relaxed">
                             折射率近似为零(index-near-zero, INZ)电磁模式被广泛研究与介电常数近似为零(epsilon-near-zero, ENZ)材料中，由于其特殊的空间相位不变性，其主要可用来进行如光学隐身等领域。
                         </p>
                     </div>
                     <div>
-                        <h3 class="text-lg font-semibold mb-2 text-primary">全光逻辑器件</h3>
+                        <h3 class="text-xl lg:text-2xl font-bold mb-3 text-primary">全光逻辑器件</h3>
                         <p class="leading-relaxed">
                             微型电子计算机中的逻辑运算受限于其中急剧增加的串扰及能量损失，而基于全光逻辑运算的光学计算是一个潜在的解决方案。
                         </p>
@@ -192,189 +681,371 @@
             </section>
 
             <!-- 科研论文 -->
-            <section id="publications" class="bg-white rounded-lg shadow-lg p-6 mb-8">
-                <h2 class="section-title">科研论文</h2>
-                <p class="mb-6">
-                    共发表SCI论文20余篇，其中以第一作者/第一通讯作者发表SCI论文18篇，其中中科院一区2篇(1篇Nature序列期刊，一篇IF&gt;10)及中科院二区11篇。另外，发表中文卓越期刊论文1篇。
+            <section id="publications" class="bg-white rounded-lg shadow-lg p-6 mb-5 animate-on-scroll">
+                <h2 class="section-title"><i class="fa fa-file-text text-primary"></i>科研论文</h2>
+                <p class="mb-5 text-base lg:text-lg leading-relaxed">
+                    共发表SCI论文30余篇，其中以第一作者/第一通讯作者发表SCI论文18篇，其中中科院一区2篇(1篇Nature序列期刊，一篇IF>10)及中科院二区11篇。另外，发表中文卓越期刊论文1篇。
                 </p>
                 
-                <h3 class="text-xl font-semibold mb-4 text-primary">第一/通讯作者论文</h3>
-                <div class="space-y-4 mb-8">
-                    <div class="paper-item">
-                        <p>1. J. Xu*, Y. Luo, M. Yang, Y. Shen, Y. You*, K. L. Tsakmakidis*, and Q. Shen*, "Realization of Tunable Topological Index‐Near‐Zero Modes in Chern Photonic Crystals," <em>Advanced Optical Materials</em> 13, e01115 (2025). (中科院2区)</p></div>
-                    <div class="paper-item">
-                        <p>2. M. Yang, Y. You, Y. Luo, K. Yong, D. Feng, Q. Shen, and J. Xu*, "Numerical realization of tunable triple-band slow wave and bidirectional rainbow trapping in magneto-optical heterostructures," <em>Opt. Express</em> 33(13), 28467 (2025). (中科院2区)</p>
+                <h3 class="pub-subtitle">第一/通讯作者论文</h3>
+                <div class="space-y-6 mb-6">
+                    <div class="paper-item bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
+                        <p class="mb-2">1. J. Xu*, Y. Luo, M. Yang, Y. Shen, Y. You*, K. L. Tsakmakidis*, and Q. Shen*, "Realization of Tunable Topological Index‐Near‐Zero Modes in Chern Photonic Crystals," <em>Advanced Optical Materials</em> 13, e01115 (2025).</p>
+                        <div class="paper-meta">
+                            <span class="meta-tag impact">IF: ~8.0</span>
+                            <span class="meta-tag citation">引用: 0</span>
+                            <span class="meta-tag journal">中科院2区</span>
+                        </div>
                     </div>
-                    <div class="paper-item">
-                        <p>3. Q. Shen, Y. You, Z. Tang, J. Gao, and J. Xu*, "Tunable unidirectional large-area surface magnetoplasmons in a stratified waveguide," <em>Opt. Express</em> 33(12), 25580-25593 (2025). (中科院2区)</p>
+                    <div class="paper-item bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
+                        <p class="mb-2">2. M. Yang, Y. You, Y. Luo, K. Yong, D. Feng, Q. Shen, and J. Xu*, "Numerical realization of tunable triple-band slow wave and bidirectional rainbow trapping in magneto-optical heterostructures," <em>Opt. Express</em> 33(13), 28467 (2025).</p>
+                        <div class="paper-meta">
+                            <span class="meta-tag impact">IF: ~3.5</span>
+                            <span class="meta-tag citation">引用: 0</span>
+                            <span class="meta-tag journal">中科院2区</span>
+                        </div>
                     </div>
-                    <div class="paper-item">
-                        <p>4. J. Xu*, Y. You, S. Xiao, L. Hong, Y. Shen, K. L. Tsakmakidis*, and Y. Luo*, "Assembling magneto-optical heterostructures for all-optical multi-functional devices," <em>Opt. Laser Technol.</em> 188, 112858 (2025). (中科院2区 TOP)</p>
+                    <div class="paper-item bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
+                        <p class="mb-2">3. Q. Shen, Y. You, Z. Tang, J. Gao, and J. Xu*, "Tunable unidirectional large-area surface magnetoplasmons in a stratified waveguide," <em>Opt. Express</em> 33(12), 25580-25593 (2025).</p>
+                        <div class="paper-meta">
+                            <span class="meta-tag impact">IF: ~3.5</span>
+                            <span class="meta-tag citation">引用: 0</span>
+                            <span class="meta-tag journal">中科院2区</span>
+                        </div>
                     </div>
-                    <div class="paper-item">
-                        <p>5. P. He, Y. Shen, S. Xiao, L. Hong, Y. You, K. L. Tsakmakidis*, Y. Luo*, and J. Xu*, "Precisely tunable and predictable index-near-zero modes across continuous and broad bands," <em>Appl. Phys. Lett.</em> 124(16), 161109 (2024). (中科院2区TOP)</p>
+                    <div class="paper-item bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
+                        <p class="mb-2">4. J. Xu*, Y. You, S. Xiao, L. Hong, Y. Shen, K. L. Tsakmakidis*, and Y. Luo*, "Assembling magneto-optical heterostructures for all-optical multi-functional devices," <em>Opt. Laser Technol.</em> 188, 112858 (2025).</p>
+                        <div class="paper-meta">
+                            <span class="meta-tag impact">IF: ~4.0</span>
+                            <span class="meta-tag citation">引用: 0</span>
+                            <span class="meta-tag journal">中科院2区 TOP</span>
+                        </div>
                     </div>
-                    <div class="paper-item">
-                        <p>6. J. Xu*, Y. Luo, K. Yong, K. Baskourelos, and K. L. Tsakmakidis*, "Topological and High-Performance Nonreciprocal Extraordinary Optical Transmission from a Guided Mode to Free-Space Radiation," <em>Commun. Phys.</em> 6, 339 (2023). (Nature序列期刊, 中科院1区TOP)</p>
+                    <div class="paper-item bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
+                        <p class="mb-2">5. P. He, Y. Shen, S. Xiao, L. Hong, Y. You, K. L. Tsakmakidis*, Y. Luo*, and J. Xu*, "Precisely tunable and predictable index-near-zero modes across continuous and broad bands," <em>Appl. Phys. Lett.</em> 124(16), 161109 (2024).</p>
+                        <div class="paper-meta">
+                            <span class="meta-tag impact">IF: ~3.8</span>
+                            <span class="meta-tag citation">引用: 0</span>
+                            <span class="meta-tag journal">中科院2区TOP</span>
+                        </div>
                     </div>
-                    <div class="paper-item">
-                        <p>7. J. Xu*, P. He, D. Feng, Y. Luo, S. Fan, K. Yong*, and K. L. Tsakmakidis*, "Tunable all-optical microwave logic gates based on topologically protected edge modes," <em>Opt. Express</em> 31(25), 42388-42399 (2023). (中科院2区 TOP)</p>
+                    <div class="paper-item bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
+                        <p class="mb-2">6. J. Xu*, Y. Luo, K. Yong, K. Baskourelos, and K. L. Tsakmakidis*, "Topological and High-Performance Nonreciprocal Extraordinary Optical Transmission from a Guided Mode to Free-Space Radiation," <em>Commun. Phys.</em> 6, 339 (2023).</p>
+                        <div class="paper-meta">
+                            <span class="meta-tag impact">IF: ~6.0</span>
+                            <span class="meta-tag citation">引用: 5</span>
+                            <span class="meta-tag journal">Nature序列期刊, 中科院1区TOP</span>
+                        </div>
                     </div>
-                    <div class="paper-item">
-                        <p>8. J. Xu*, Y. Luo, S. Xiao, F. Kang*, and K. L. Tsakmakidis*, "All-optical digital logic based on unidirectional modes," <em>Adv. Opt. Mater.</em> 11(1), 2201836 (2022). (中科院1区, IF(2021)=10.05)</p>
+                    <div class="paper-item bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
+                        <p class="mb-2">7. J. Xu*, P. He, D. Feng, Y. Luo, S. Fan, K. Yong*, and K. L. Tsakmakidis*, "Tunable all-optical microwave logic gates based on topologically protected edge modes," <em>Opt. Express</em> 31(25), 42388-42399 (2023).</p>
+                        <div class="paper-meta">
+                            <span class="meta-tag impact">IF: ~3.5</span>
+                            <span class="meta-tag citation">引用: 3</span>
+                            <span class="meta-tag journal">中科院2区 TOP</span>
+                        </div>
                     </div>
-                    <div class="paper-item">
-                        <p>9. Y. Zhou, P. He, S. Xiao, F. Kang, L. Hong, Y. Shen, Y. Luo, and J. Xu*, "Realization of tunable index-near-zero modes in nonreciprocal magneto-optical heterostructures," <em>Opt. Express</em> 30(15), 27259-27272 (2022). (中科院2区TOP)</p>
+                    <div class="paper-item bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
+                        <p class="mb-2">8. J. Xu*, Y. Luo, S. Xiao, F. Kang*, and K. L. Tsakmakidis*, "All-optical digital logic based on unidirectional modes," <em>Adv. Opt. Mater.</em> 11(1), 2201836 (2022).</p>
+                        <div class="paper-meta">
+                            <span class="meta-tag impact">IF: ~10.0</span>
+                            <span class="meta-tag citation">引用: 12</span>
+                            <span class="meta-tag journal">中科院1区</span>
+                        </div>
                     </div>
-                    <div class="paper-item">
-                        <p>10. X. Zhong, M. Ali, X. Wang, W. Lu, K. Yong, D. Feng, Y. Zhou*, and J. Xu*, "Direct growth of hierarchically Ni3S2 nanostructures on nickel foam for enhanced hydrogen evolution reaction," <em>Indian Journal of Chemistry (IJC)</em> 63(1), 105-111 (2024)</p>
+                    <div class="paper-item bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
+                        <p class="mb-2">9. Y. Zhou, P. He, S. Xiao, F. Kang, L. Hong, Y. Shen, Y. Luo, and J. Xu*, "Realization of tunable index-near-zero modes in nonreciprocal magneto-optical heterostructures," <em>Opt. Express</em> 30(15), 27259-27272 (2022).</p>
+                        <div class="paper-meta">
+                            <span class="meta-tag impact">IF: ~3.5</span>
+                            <span class="meta-tag citation">引用: 8</span>
+                            <span class="meta-tag journal">中科院2区TOP</span>
+                        </div>
                     </div>
-                    <div class="paper-item">
-                        <p>11. J. Xu, S. Xiao, P. He, Y. Wang, Y. Shen, L. Hong*, Y. Luo*, and B. He*, "Realization of broadband truly rainbow trapping in gradient-index metamaterials," <em>Opt. Express</em> 30(3), 3941-3953 (2022). (中科院2区TOP)</p>
+                    <div class="paper-item bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
+                        <p class="mb-2">10. X. Zhong, M. Ali, X. Wang, W. Lu, K. Yong, D. Feng, Y. Zhou*, and J. Xu*, "Direct growth of hierarchically Ni3S2 nanostructures on nickel foam for enhanced hydrogen evolution reaction," <em>Indian Journal of Chemistry (IJC)</em> 63(1), 105-111 (2024)</p>
+                        <div class="paper-meta">
+                            <span class="meta-tag impact">IF: ~1.5</span>
+                            <span class="meta-tag citation">引用: 0</span>
+                        </div>
                     </div>
-                    <div class="paper-item">
-                        <p>12. K. Yong*, B. Tang, Y. Wang, D. Feng, M. Yang, B. He, Y. Luo, and J. Xu*, "Propagation characteristics study of radially polarized Gaussian vortex beam in ocean turbulence," <em>Optik</em> 270, 170074 (2022).</p>
+                    <div class="paper-item bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
+                        <p class="mb-2">11. J. Xu, S. Xiao, P. He, Y. Wang, Y. Shen, L. Hong*, Y. Luo*, and B. He*, "Realization of broadband truly rainbow trapping in gradient-index metamaterials," <em>Opt. Express</em> 30(3), 3941-3953 (2022).</p>
+                        <div class="paper-meta">
+                            <span class="meta-tag impact">IF: ~3.5</span>
+                            <span class="meta-tag citation">引用: 6</span>
+                            <span class="meta-tag journal">中科院2区TOP</span>
+                        </div>
                     </div>
-                    <div class="paper-item">
-                        <p>13. L. Hong, Y. Wang, Y. Shen, X. Deng, K. Yuan, S. Xiao, and J. Xu*, "Broadband energy squeezing and tunneling based on unidirectional modes," <em>Opt. Mater. Express</em> 11(9), 2975-2984 (2021). (中科院2区)</p>
+                    <div class="paper-item bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
+                        <p class="mb-2">12. K. Yong*, B. Tang, Y. Wang, D. Feng, M. Yang, B. He, Y. Luo, and J. Xu*, "Propagation characteristics study of radially polarized Gaussian vortex beam in ocean turbulence," <em>Optik</em> 270, 170074 (2022).</p>
+                        <div class="paper-meta">
+                            <span class="meta-tag impact">IF: ~2.5</span>
+                            <span class="meta-tag citation">引用: 4</span>
+                        </div>
                     </div>
-                    <div class="paper-item">
-                        <p>14. J. Xu, T. Li, L. Zhang, B. He, D. Feng, and Y. Zhou*, "One‐step synthesis of anionic S‐substitution toward Ni2P (S) nanowires on nickel foam for enhanced hydrogen evolution reaction," <em>Int. J. Energy Res.</em> 45(11), 16973–16983 (2021).</p>
+                    <div class="paper-item bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
+                        <p class="mb-2">13. L. Hong, Y. Wang, Y. Shen, X. Deng, K. Yuan, S. Xiao, and J. Xu*, "Broadband energy squeezing and tunneling based on unidirectional modes," <em>Opt. Mater. Express</em> 11(9), 2975-2984 (2021).</p>
+                        <div class="paper-meta">
+                            <span class="meta-tag impact">IF: ~3.0</span>
+                            <span class="meta-tag citation">引用: 7</span>
+                            <span class="meta-tag journal">中科院2区</span>
+                        </div>
                     </div>
-                    <div class="paper-item">
-                        <p>15. J. Xu, P. He, D. Feng, K. Yong, L. Hong, Y. Shen, and Y. Zhou*, "Slow wave and truly rainbow trapping in a one-way terahertz waveguide," <em>Opt. Express</em> 29(7), 11328-11341 (2021). (中科院2区TOP)</p>
+                    <div class="paper-item bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
+                        <p class="mb-2">14. J. Xu, T. Li, L. Zhang, B. He, D. Feng, and Y. Zhou*, "One‐step synthesis of anionic S‐substitution toward Ni2P (S) nanowires on nickel foam for enhanced hydrogen evolution reaction," <em>Int. J. Energy Res.</em> 45(11), 16973–16983 (2021).</p>
+                        <div class="paper-meta">
+                            <span class="meta-tag impact">IF: ~3.0</span>
+                            <span class="meta-tag citation">引用: 5</span>
+                        </div>
                     </div>
-                    <div class="paper-item">
-                        <p>16. J. Xu, Q. Shen, K. Yuan, X. Deng, Y. Shen, H. Zhang, C. Wu, S. Xiao, and L. Shen*, "Trapping and releasing bidirectional rainbow at terahertz frequencies," <em>Opt. Communications</em> 473, 125999 (2020).</p>
+                    <div class="paper-item bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
+                        <p class="mb-2">15. J. Xu, P. He, D. Feng, K. Yong, L. Hong, Y. Shen, and Y. Zhou*, "Slow wave and truly rainbow trapping in a one-way terahertz waveguide," <em>Opt. Express</em> 29(7), 11328-11341 (2021).</p>
+                        <div class="paper-meta">
+                            <span class="meta-tag impact">IF: ~3.5</span>
+                            <span class="meta-tag citation">引用: 9</span>
+                            <span class="meta-tag journal">中科院2区TOP</span>
+                        </div>
                     </div>
-                    <div class="paper-item">
-                        <p>17. J. Xu, X. Deng, H. Zhang*, C. Wu, M. Wubs, S. Xiao, and L. Shen*, "Ultra-subwavelength focusing and giant magnetic-field enhancement in a low-loss one-way waveguide based on remanence," <em>J. Opt.</em> 22(2), 025003 (2020).</p>
+                    <div class="paper-item bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
+                        <p class="mb-2">16. J. Xu, Q. Shen, K. Yuan, X. Deng, Y. Shen, H. Zhang, C. Wu, S. Xiao, and L. Shen*, "Trapping and releasing bidirectional rainbow at terahertz frequencies," <em>Opt. Communications</em> 473, 125999 (2020).</p>
+                        <div class="paper-meta">
+                            <span class="meta-tag impact">IF: ~2.0</span>
+                            <span class="meta-tag citation">引用: 10</span>
+                        </div>
                     </div>
-                    <div class="paper-item">
-                        <p>18. J. Xu, S. Xiao, C. Wu, H. Zhang, X. Deng, and L. Shen*, "Broadband one-way propagation and rainbow trapping of terahertz radiations," <em>Opt. Express</em> 27(8), 10659-10669 (2019). (中科院2区TOP)</p>
+                    <div class="paper-item bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
+                        <p class="mb-2">17. J. Xu, X. Deng, H. Zhang*, C. Wu, M. Wubs, S. Xiao, and L. Shen*, "Ultra-subwavelength focusing and giant magnetic-field enhancement in a low-loss one-way waveguide based on remanence," <em>J. Opt.</em> 22(2), 025003 (2020).</p>
+                        <div class="paper-meta">
+                            <span class="meta-tag impact">IF: ~2.5</span>
+                            <span class="meta-tag citation">引用: 8</span>
+                        </div>
                     </div>
-                    <div class="paper-item">
-                        <p>19. 徐杰, 王键, 何蕊, 等. 测量液体黏滞系数的圆锥系统实验平台设计[J]. 西南大学学报(自然科学版), 2025, 47(8): 227-235. (中文卓越期刊, 中文核心)</p>
+                    <div class="paper-item bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
+                        <p class="mb-2">18. J. Xu, S. Xiao, C. Wu, H. Zhang, X. Deng, and L. Shen*, "Broadband one-way propagation and rainbow trapping of terahertz radiations," <em>Opt. Express</em> 27(8), 10659-10669 (2019).</p>
+                        <div class="paper-meta">
+                            <span class="meta-tag impact">IF: ~3.5</span>
+                            <span class="meta-tag citation">引用: 15</span>
+                            <span class="meta-tag journal">中科院2区TOP</span>
+                        </div>
                     </div>
-                    <div class="paper-item">
-                        <p>20. 何盼盼, 张培高, 杨梦婷, 罗亚梅, 徐杰. 基于YIG材料的单向近零折射率模式在相位调控、慢波及微波诊疗中的应用[J]. 西南医科大学学报, 48(5): 465-470.</p>
+                    <div class="paper-item bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
+                        <p class="mb-2">19. 徐杰, 王键, 何蕊, 等. 测量液体黏滞系数的圆锥系统实验平台设计[J]. 西南大学学报(自然科学版), 2025, 47(8): 227-235.</p>
+                        <div class="paper-meta">
+                            <span class="meta-tag journal">中文卓越期刊, 中文核心</span>
+                            <span class="meta-tag citation">引用: 0</span>
+                        </div>
+                    </div>
+                    <div class="paper-item bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
+                        <p class="mb-2">20. 何盼盼, 张培高, 杨梦婷, 罗亚梅, 徐杰. 基于YIG材料的单向近零折射率模式在相位调控、慢波及微波诊疗中的应用[J]. 西南医科大学学报, 48(5): 465-470.</p>
+                        <div class="paper-meta">
+                            <span class="meta-tag journal">科技核心</span>
+                            <span class="meta-tag citation">引用: 1</span>
+                        </div>
                     </div>
                 </div>
 
-                <h3 class="text-xl font-semibold mb-4 text-primary">合作作者论文</h3>
-                <div class="space-y-4">
-                    <div class="paper-item">
+                <h3 class="pub-subtitle">合作作者论文</h3>
+                <div class="space-y-6">
+                    <div class="paper-item bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
                         <p>21. S. Fan, T. Guo, B. Zhou, J. Xu, X. Deng, J. Lei, Y. Shen, M. Fu, K. L. Tsakmakidis, and L. Hong*, "Multiple truly topological unidirectional surface magnetoplasmons at terahertz frequencies," <em>Phys. Rev. B</em> 111(23), 235303 (2025).</p>
                     </div>
-                    <div class="paper-item">
+                    <div class="paper-item bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
                         <p>22. C. Liu, Z. Zhao, T. Guo, J. Xu, X. Deng, K. Yuan, R. Tang, K. L. Tsakmakidis, and L. Hong*, "Robust multimode interference and conversion in topological unidirectional surface magnetoplasmons," <em>Opt. Lett.</em> 50(4), 1253 (2025).</p>
                     </div>
-                    <div class="paper-item">
+                    <div class="paper-item bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
                         <p>23. T. Zhang, X. Zhang, Y. Shen*, Y. Xu, L. Luo, J. Gu, S. Yang, J. Xu, and X. Deng*, "Experiment on terahertz metasurfaces of metal split ring resonators with bound state in the continuum," <em>APL Mater.</em> 11(5), 051102 (2023).</p>
                     </div>
-                    <div class="paper-item">
+                    <div class="paper-item bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
                         <p>24. M. Yang, H. Zhang, W. Liu, K. Yong, J. Xu, Y. Luo, and H. Zhang*, "Knowledge graph analysis and visualization of artificial intelligence applied in electrocardiogram," <em>Front. Physiol.</em> 14, 1118360 (2023).</p>
                     </div>
-                    <div class="paper-item">
+                    <div class="paper-item bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
                         <p>25. C. Liu, D. Li, P. Boutinaud, J. Xu, Y. Du, Y. Hou, C. Zhang, Q. Zhou, and F. Kang*, "Tailoring Electromagnetic Responses in Terahertz Metasurface by Breaking the Structural Symmetry in T-Shaped Resonators," <em>Adv. Photon. Res.</em> 4, 2200356 (2023).</p>
                     </div>
-                    <div class="paper-item">
+                    <div class="paper-item bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
                         <p>26. F. Kang*, Y. Du, Z. Yang, P. Boutinaud, M. Wubs, J. Xu, H. Ou, D. Li, K. Zheng, A. T. Tarekegne, G. Sun, X. Xu, and S. Xiao*, "Spectral tuning, stabilities under external exposures, and spontaneous enhancement of emission intensity of grown-into-glass all-inorganic metal halide perovskite nanocrystals," <em>Laser Photonics Rev.</em> 17(1), 2200166 (2022). (中科院1区TOP)</p>
                     </div>
-                    <div class="paper-item">
+                    <div class="paper-item bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
                         <p>27. Q. Shen, Y. You, J. Xu, Y. Shen, X. Deng, Z. Wang, W. Min*, L. Shen, and S. Xiao*, "Mechanically scanned leaky-wave antenna based on a topological one-way waveguide," <em>Front. Phys.</em> 15(3), 33601 (2020). (中科院2区)</p>
                     </div>
-                    <div class="paper-item">
+                    <div class="paper-item bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
                         <p>28. Q. Shen, L. Shen*, W. Min, J. Xu, C. Wu, X. Deng, and S. Xiao*, "Trapping a magnetic rainbow by using a one-way magnetostatic-like mode," <em>Opt. Mater. Express</em> 9(11), 4399-4408 (2019). (中科院2区)</p>
                     </div>
-                    <div class="paper-item">
+                    <div class="paper-item bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
                         <p>29. L. Shen, J. Xu, Y. You, K. Yuan*, and X. Deng, "One-Way Electromagnetic Mode Guided by the Mechanism of Total Internal Reflection," <em>IEEE Photon. Technol. Lett.</em> 30(2), 133–136 (2018).</p>
                     </div>
-                    <div class="paper-item">
+                    <div class="paper-item bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
                         <p>30. L. He, Q. Shen, J. Xu, Y. You, T. Yu, L. Shen*, and X. Deng*, "One-way edge modes in a photonic crystal of semiconductor at terahertz frequencies," <em>Sci. Rep.</em> 8(1), 8165 (2018).</p>
                     </div>
                 </div>
             </section>
 
             <!-- 科研项目 -->
-            <section id="projects" class="bg-white rounded-lg shadow-lg p-6 mb-8">
-                <h2 class="section-title">科研项目</h2>
-                <div class="space-y-4">
-                    <div class="project-item">
-                        <p><strong>国家自然科学基金委, 青年科学基金项目</strong> (项目编号: 12404143)<br>
-                        基于磁光异质结构的磁可控且可集成的微波全光逻辑门研究<br>
-                        2025-01-01 至 2027-12-31, 在研, <strong>主持</strong></p>
+            <section id="projects" class="bg-white rounded-lg shadow-lg p-6 mb-5 animate-on-scroll">
+                <h2 class="section-title"><i class="fa fa-tasks text-primary"></i>科研项目</h2>
+                <div class="space-y-5">
+                    <div class="project-item in-progress">
+                        <div class="flex justify-between items-start mb-3">
+                            <h3 class="font-bold text-lg text-primary">国家自然科学基金委, 青年科学基金项目</h3>
+                            <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">在研</span>
+                        </div>
+                        <p class="text-gray-700 mb-2"><strong>项目编号:</strong> 12404143</p>
+                        <p class="text-gray-700 mb-2"><strong>项目名称:</strong> 基于磁光异质结构的磁可控且可集成的微波全光逻辑门研究</p>
+                        <p class="text-gray-700 mb-2"><strong>时间:</strong> 2025-01-01 至 2027-12-31</p>
+                        <p class="text-gray-700 font-medium">角色: 主持</p>
                     </div>
-                    <div class="project-item">
-                        <p><strong>四川省科技厅, 自然科学基金项目</strong> (项目编号: 2023NSFSC1309)<br>
-                        磁光异质系统中近零折射率模式及其应用研究<br>
-                        2023-01 至 2024-12, 结题, <strong>主持</strong></p>
+                    <div class="project-item completed">
+                        <div class="flex justify-between items-start mb-3">
+                            <h3 class="font-bold text-lg text-primary">四川省科技厅, 自然科学基金项目</h3>
+                            <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-xs font-medium">结题</span>
+                        </div>
+                        <p class="text-gray-700 mb-2"><strong>项目编号:</strong> 2023NSFSC1309</p>
+                        <p class="text-gray-700 mb-2"><strong>项目名称:</strong> 磁光异质系统中近零折射率模式及其应用研究</p>
+                        <p class="text-gray-700 mb-2"><strong>时间:</strong> 2023-01 至 2024-12</p>
+                        <p class="text-gray-700 font-medium">角色: 主持</p>
                     </div>
-                    <div class="project-item">
-                        <p><strong>泸州科技局, 应用基础研究(自由探索)</strong> (项目编号: 2023JYJ046)<br>
-                        基于磁光单向边界模式的微波全光逻辑门的理论及其应用研究<br>
-                        2023-07 至 2025-07, 在研, <strong>主持</strong></p>
+                    <div class="project-item in-progress">
+                        <div class="flex justify-between items-start mb-3">
+                            <h3 class="font-bold text-lg text-primary">泸州科技局, 应用基础研究(自由探索)</h3>
+                            <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">在研</span>
+                        </div>
+                        <p class="text-gray-700 mb-2"><strong>项目编号:</strong> 2023JYJ046</p>
+                        <p class="text-gray-700 mb-2"><strong>项目名称:</strong> 基于磁光单向边界模式的微波全光逻辑门的理论及其应用研究</p>
+                        <p class="text-gray-700 mb-2"><strong>时间:</strong> 2023-07 至 2025-07</p>
+                        <p class="text-gray-700 font-medium">角色: 主持</p>
                     </div>
-                    <div class="project-item">
-                        <p><strong>光电功能材料重庆市重点实验室开放课题</strong><br>
-                        磁光异质系统中宽带可调近零折射率模式研究<br>
-                        2022-06 至 2023-06, 结题, <strong>主持</strong></p>
+                    <div class="project-item completed">
+                        <div class="flex justify-between items-start mb-3">
+                            <h3 class="font-bold text-lg text-primary">光电功能材料重庆市重点实验室开放课题</h3>
+                            <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-xs font-medium">结题</span>
+                        </div>
+                        <p class="text-gray-700 mb-2"><strong>项目名称:</strong> 磁光异质系统中宽带可调近零折射率模式研究</p>
+                        <p class="text-gray-700 mb-2"><strong>时间:</strong> 2022-06 至 2023-06</p>
+                        <p class="text-gray-700 font-medium">角色: 主持</p>
                     </div>
-                    <div class="project-item">
-                        <p><strong>西南医科大学校级项目</strong> (项目编号: 20/00160222)<br>
-                        微波与太赫兹亚波长功能器件研究<br>
-                        2021-12 至 2023-12, 结题, <strong>主持</strong></p>
+                    <div class="project-item completed">
+                        <div class="flex justify-between items-start mb-3">
+                            <h3 class="font-bold text-lg text-primary">西南医科大学校级项目</h3>
+                            <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-xs font-medium">结题</span>
+                        </div>
+                        <p class="text-gray-700 mb-2"><strong>项目编号:</strong> 20/00160222</p>
+                        <p class="text-gray-700 mb-2"><strong>项目名称:</strong> 微波与太赫兹亚波长功能器件研究</p>
+                        <p class="text-gray-700 mb-2"><strong>时间:</strong> 2021-12 至 2023-12</p>
+                        <p class="text-gray-700 font-medium">角色: 主持</p>
                     </div>
-                    <div class="project-item">
-                        <p><strong>西南医科大学高层次人才启动经费</strong> (项目编号: 20/00040186)<br>
-                        2020-12 至今, 在研, <strong>主持</strong></p>
+                    <div class="project-item in-progress">
+                        <div class="flex justify-between items-start mb-3">
+                            <h3 class="font-bold text-lg text-primary">西南医科大学高层次人才启动经费</h3>
+                            <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">在研</span>
+                        </div>
+                        <p class="text-gray-700 mb-2"><strong>项目编号:</strong> 20/00040186</p>
+                        <p class="text-gray-700 mb-2"><strong>时间:</strong> 2020-12 至今</p>
+                        <p class="text-gray-700 font-medium">角色: 主持</p>
                     </div>
-                    <div class="project-item">
-                        <p><strong>国家自然科学基金委员会, 地区科学基金项目</strong> (项目编号: 61861031)<br>
-                        磁化等离子体鞘套内太赫兹波传播特性的研究<br>
-                        2019-01 至 2022-12, 结题, 参与</p>
+                    <div class="project-item completed">
+                        <div class="flex justify-between items-start mb-3">
+                            <h3 class="font-bold text-lg text-primary">国家自然科学基金委员会, 地区科学基金项目</h3>
+                            <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-xs font-medium">结题</span>
+                        </div>
+                        <p class="text-gray-700 mb-2"><strong>项目编号:</strong> 61861031</p>
+                        <p class="text-gray-700 mb-2"><strong>项目名称:</strong> 磁化等离子体鞘套内太赫兹波传播特性的研究</p>
+                        <p class="text-gray-700 mb-2"><strong>时间:</strong> 2019-01至2022-12</p>
+                        <p class="text-gray-700 font-medium">角色: 参与</p>
                     </div>
-                    <div class="project-item">
-                        <p><strong>智能控制与电子器件应用泸州市重点实验室开放课题</strong> (项目编号: ZK202210)<br>
-                        基于铁磁及磁光材料的全光逻辑运算研究<br>
-                        2022-05 至 2024-05, 结题, 参与</p>
+                    <div class="project-item completed">
+                        <div class="flex justify-between items-start mb-3">
+                            <h3 class="font-bold text-lg text-primary">智能控制与电子器件应用泸州市重点实验室开放课题</h3>
+                            <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-xs font-medium">结题</span>
+                        </div>
+                        <p class="text-gray-700 mb-2"><strong>项目编号:</strong> ZK202210</p>
+                        <p class="text-gray-700 mb-2"><strong>项目名称:</strong> 基于铁磁及磁光材料的全光逻辑运算研究</p>
+                        <p class="text-gray-700 mb-2"><strong>时间:</strong> 2022-05至2024-05</p>
+                        <p class="text-gray-700 font-medium">角色: 参与</p>
                     </div>
                 </div>
             </section>
 
             <!-- 教学成果 -->
-            <section id="teaching" class="bg-white rounded-lg shadow-lg p-6 mb-8">
-                <h2 class="section-title">教学成果</h2>
-                <ul class="space-y-2 list-disc pl-6">
-                    <li>2025.08 第二届西南地区物理实验竞赛(创新)二等奖(省级, 3项)</li>
-                    <li>2025.05 第18届中国大学生计算机设计大赛四川省级三等奖(省级, 2项)</li>
-                    <li>2024.11 第十届全国大学生物理实验竞赛(创新)一等奖 (国家级)</li>
-                    <li>2024.08 第一届西南地区物理实验竞赛(创新)一等奖(省级)</li>
-                    <li>2024.08 第一届西南地区物理实验竞赛(创新)三等奖(省级)</li>
-                    <li>2024.05 "2023年度实验与实践教学建设先进个人"荣誉称号</li>
-                    <li>2023.11 第九届全国大学生物理实验竞赛(创新)二等奖 (国家级)</li>
-                    <li>2023.11 中国医药教育协会科技创新二等奖(省级教育教学成果奖)</li>
-                    <li>2023.11 西南医科大学"优秀兼职班主任"荣誉称号</li>
-                    <li>2022.07 第十三届中国大学生物理学术竞赛西南预选赛二等奖(省级)</li>
-                    <li>2021.07 第十二届中国大学生物理学术竞赛西南预选赛二等奖(省级)</li>
-                    <li>2021.06 参编教材--《医用物理实验》(高等教育出版社)</li>
-                </ul>
+            <section id="teaching" class="bg-white rounded-lg shadow-lg p-6 mb-5 animate-on-scroll">
+                <h2 class="section-title"><i class="fa fa-book text-primary"></i>教学成果</h2>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="bg-primary/5 p-5 rounded-lg border-l-4 border-primary">
+                        <h3 class="font-bold text-lg mb-4 text-primary">竞赛获奖</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <i class="fa fa-trophy text-primary mt-1 mr-3"></i>
+                                <span>2025.08 第二届西南地区物理实验竞赛(创新)二等奖(省级, 3项)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-trophy text-primary mt-1 mr-3"></i>
+                                <span>2025.05 第18届中国大学生计算机设计大赛四川省级三等奖(省级, 2项)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-trophy text-primary mt-1 mr-3"></i>
+                                <span>2024.11 第十届全国大学生物理实验竞赛(创新)一等奖 (国家级)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-trophy text-primary mt-1 mr-3"></i>
+                                <span>2024.08 第一届西南地区物理实验竞赛(创新)一等奖(省级)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-trophy text-primary mt-1 mr-3"></i>
+                                <span>2024.08 第一届西南地区物理实验竞赛(创新)三等奖(省级)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-trophy text-primary mt-1 mr-3"></i>
+                                <span>2023.11 第九届全国大学生物理实验竞赛(创新)二等奖 (国家级)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-trophy text-primary mt-1 mr-3"></i>
+                                <span>2023.11 中国医药教育协会科技创新二等奖(省级教育教学成果奖)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-trophy text-primary mt-1 mr-3"></i>
+                                <span>2022.07 第十三届中国大学生物理学术竞赛西南预选赛二等奖(省级)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-trophy text-primary mt-1 mr-3"></i>
+                                <span>2021.07 第十二届中国大学生物理学术竞赛西南预选赛二等奖(省级)</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="bg-primary/5 p-5 rounded-lg border-l-4 border-primary">
+                        <h3 class="font-bold text-lg mb-4 text-primary">荣誉称号</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <i class="fa fa-certificate text-primary mt-1 mr-3"></i>
+                                <span>2024.05 "2023年度实验与实践教学建设先进个人"荣誉称号</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-certificate text-primary mt-1 mr-3"></i>
+                                <span>2023.11 西南医科大学"优秀兼职班主任"荣誉称号</span>
+                            </li>
+                        </ul>
+                        <h3 class="font-bold text-lg mt-6 mb-4 text-primary">教材编写</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <i class="fa fa-book text-primary mt-1 mr-3"></i>
+                                <span>2021.06 参编教材--《医用物理实验》(高等教育出版社)</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </section>
 
             <!-- 专利 -->
-            <section id="patents" class="bg-white rounded-lg shadow-lg p-6 mb-8">
-                <h2 class="section-title">专利</h2>
-                <div class="space-y-4">
-                    <div class="project-item">
-                        <p><strong>新型固体转动惯量与液体粘滞系数测量综合实验仪</strong><br>
-                        专利号: ZL 2024 1 0290628.3<br>
-                        第一发明人</p>
+            <section id="patents" class="bg-white rounded-lg shadow-lg p-6 mb-5 animate-on-scroll">
+                <h2 class="section-title"><i class="fa fa-lightbulb-o text-primary"></i>专利</h2>
+                <div class="space-y-6">
+                    <div class="project-item bg-white p-5 rounded-lg shadow-sm border-l-4 border-primary transition-all duration-300 hover:shadow-md">
+                        <h3 class="font-bold text-lg text-primary mb-3">新型固体转动惯量与液体粘滞系数测量综合实验仪</h3>
+                        <p class="text-gray-700 mb-2"><strong>专利号:</strong> ZL 2024 1 0290628.3</p>
+                        <p class="text-gray-700 font-medium">角色: 第一发明人</p>
                     </div>
                 </div>
             </section>
 
             <!-- 页脚 -->
-            <footer class="text-center text-gray-500 text-sm py-8">
+            <footer class="text-center text-gray-500 text-base py-8">
                 <p>© 2026 徐杰 副教授 | 最后更新: 2026年4月</p>
                 <p class="mt-2">本页面使用纯HTML/CSS构建，支持直接打印为PDF</p>
             </footer>
@@ -421,9 +1092,163 @@
                 }
             });
         });
+        
+        // 滚动动画
+        window.addEventListener('scroll', function() {
+            const elements = document.querySelectorAll('.animate-on-scroll');
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('visible');
+                }
+            });
+        });
+        
+        // 页面加载时触发动画
+        window.addEventListener('load', function() {
+            const elements = document.querySelectorAll('.animate-on-scroll');
+            elements.forEach(element => {
+                element.classList.add('visible');
+            });
+        });
     </script>
 
+<!-- 操作按钮 -->
+<div style="position:fixed;bottom:20px;right:20px;z-index:9999;display:flex;gap:8px;flex-wrap:wrap;">
+  <button id="editBtn" class="px-4 py-2 bg-blue-600 text-white rounded">开启编辑</button>
+  <button id="sourceBtn" class="px-4 py-2 bg-purple-600 text-white rounded hidden">编辑源码</button>
+  <button id="exportBtn" class="px-4 py-2 bg-green-600 text-white rounded">导出只读分享版</button>
+</div>
 
+<!-- 右键菜单 -->
+<div id="contextMenu" style="display:none;position:absolute;z-index:99999;background:white;border:1px solid #ddd;border-radius:6px;box-shadow:0 2px 10px rgba(0,0,0,0.1);padding:8px 0;">
+  <div id="addItem" style="padding:8px 16px;cursor:pointer;font-size:14px;hover:bg-gray-100;">➕ 新增同级条目</div>
+</div>
 
+<!-- 源码编辑器弹窗 -->
+<div id="sourceModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:99999;justify-content:center;align-items:center;">
+  <div style="background:white;width:90%;max-width:1200px;height:85vh;border-radius:8px;display:flex;flex-direction:column;">
+    <div style="padding:16px;border-bottom:1px solid #ddd;display:flex;justify-content:space-between;align-items:center;">
+      <h3 class="font-bold text-lg">HTML源码编辑器（已自动定位到鼠标点击位置）</h3>
+      <div>
+        <button id="saveSource" class="px-4 py-1 bg-green-600 text-white rounded mr-2">保存修改</button>
+        <button id="closeSource" class="px-4 py-1 bg-gray-500 text-white rounded">关闭</button>
+      </div>
+    </div>
+    <textarea id="sourceArea" style="flex:1;padding:16px;font-family:Consolas,monospace;resize:none;outline:none;border:none;line-height:1.5;"></textarea>
+  </div>
+</div>
 
-</body></html>
+<script>
+// 全局变量
+let isEdit = false;
+let targetElement = null;
+let clickPosition = { offset: 0, text: "" }; // 记录鼠标精确点击位置
+const menu = document.getElementById('contextMenu');
+const main = document.querySelector('main');
+
+// 🔥 核心优化：记录鼠标点击的精确字符位置（精准到光标）
+document.addEventListener('click', function(e) {
+  if(!isEdit) return;
+  const sel = window.getSelection();
+  const target = e.target.closest('.paper-item, .project-item, p, h2, h3, li, span');
+  if(!target) return;
+  
+  const range = document.createRange();
+  range.selectNodeContents(target);
+  const preText = range.toString().substring(0, sel.anchorOffset);
+  clickPosition = {
+    element: target,
+    offset: sel.anchorOffset,
+    fullText: target.innerText,
+    targetHtml: target.outerHTML
+  };
+});
+
+// 切换编辑模式
+document.getElementById('editBtn').onclick = function(){
+  isEdit = !isEdit;
+  main.contentEditable = isEdit;
+  this.textContent = isEdit ? '关闭编辑' : '开启编辑';
+  document.getElementById('sourceBtn').classList.toggle('hidden', !isEdit);
+  alert(isEdit ? '编辑已开启：\n✅ 鼠标点击任意文字后，点「编辑源码」直接定位到点击处' : '编辑已关闭');
+};
+
+// 右键菜单：仅在论文/项目/专利条目生效
+document.addEventListener('contextmenu', function(e){
+  if(!isEdit) return;
+  const el = e.target.closest('.paper-item,.project-item');
+  if(el){
+    e.preventDefault();
+    targetElement = el;
+    menu.style.display = 'block';
+    menu.style.left = e.pageX + 'px';
+    menu.style.top = e.pageY + 'px';
+  } else {
+    menu.style.display = 'none';
+  }
+});
+
+// 点击空白关闭右键菜单
+document.addEventListener('click', function(){
+  menu.style.display = 'none';
+});
+
+// 右键新增同级条目
+document.getElementById('addItem').onclick = function(){
+  if(!targetElement) return;
+  const newItem = targetElement.cloneNode(true);
+  newItem.innerHTML = '<p>请输入新内容</p>';
+  targetElement.after(newItem);
+  menu.style.display = 'none';
+};
+
+// 🔥 核心优化：源码编辑器自动跳转到鼠标点击的精确位置
+document.getElementById('sourceBtn').onclick = function(){
+  const sourceArea = document.getElementById('sourceArea');
+  const fullHtml = document.documentElement.outerHTML;
+  sourceArea.value = fullHtml;
+  document.getElementById('sourceModal').style.display = 'flex';
+
+  if(!clickPosition.targetHtml) return;
+  // 查找点击元素在源码中的位置
+  const elemPos = fullHtml.indexOf(clickPosition.targetHtml);
+  if(elemPos === -1) return;
+  
+  // 计算精确光标位置
+  const exactPos = elemPos + clickPosition.targetHtml.indexOf(clickPosition.fullText) + clickPosition.offset;
+  sourceArea.focus();
+  sourceArea.setSelectionRange(exactPos, exactPos);
+  // 自动滚动到光标位置
+  sourceArea.scrollTop = (exactPos / 100) * 20 - 150;
+};
+
+document.getElementById('closeSource').onclick = function(){
+  document.getElementById('sourceModal').style.display = 'none';
+};
+
+document.getElementById('saveSource').onclick = function(){
+  const newHtml = document.getElementById('sourceArea').value;
+  document.open();
+  document.write(newHtml);
+  document.close();
+  alert('源码已保存！页面已更新');
+};
+
+// 一键导出纯只读分享版
+document.getElementById('exportBtn').onclick = function(){
+  let cleanHtml = document.documentElement.outerHTML
+    .replace(/<!-- ==============================================[\s\S]*?<\/script>/, '');
+  
+  const blob = new Blob([cleanHtml], {type:'text/html;charset=utf-8'});
+  const a = document.createElement('a');
+  a.download = "徐杰-只读简历.html";
+  a.href = URL.createObjectURL(blob);
+  a.click();
+  URL.revokeObjectURL(a.href);
+  alert("导出成功！纯只读版简历已下载");
+};
+</script>
+</body>
+</html>
